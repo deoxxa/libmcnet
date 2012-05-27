@@ -3,8 +3,7 @@
 #define __USE_BSD
 #include <endian.h>
 
-#include "parser.h"
-#include "packets.h"
+#include "../include/mcnet.h"
 
 #define EXECUTE_CASE(x) case 0x##x: { return mcnet_parser_parse_##x(parser, settings, data, data_len); }
 

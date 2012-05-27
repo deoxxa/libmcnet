@@ -1,4 +1,4 @@
-CFLAGS += -std=c99 -Wall -Werror -Wextra -pedantic -O0 -g
+CFLAGS += -I ./include -std=c99 -Wall -Werror -Wextra -pedantic -O0 -g
 
 all: bin/example
 
