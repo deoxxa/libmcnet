@@ -37,8 +37,7 @@ Also see [example.c](example.c).
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "src/parser.h"
-#include "src/packets.h"
+#include <mcnet.h>
 
 void on_packet(mcnet_parser_t* parser, mcnet_packet_t* packet) {
   printf("[%p] packet type: %02x\n", parser->data, packet->pid);
