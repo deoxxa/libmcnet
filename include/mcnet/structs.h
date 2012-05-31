@@ -20,6 +20,7 @@
 #define CODE(code)
 
 #define PACKET(id, code) typedef struct mcnet_packet_##id##_s { \
+  UBYTE(pid) \
   code \
 } mcnet_packet_##id##_t;
 

@@ -35,6 +35,7 @@ size_t mcnet_parser_execute(mcnet_parser_t* parser, mcnet_parser_settings_t* set
 #define PACKET(id, code) PARSER_SIGNATURE(id) { \
   mcnet_packet_##id##_t packet; \
   size_t nparsed = 0; \
+  UBYTE(pid) \
   code \
   if (settings->on_packet != NULL) { \
     settings->on_packet(parser, (mcnet_packet_t*)&packet); \
