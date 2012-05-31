@@ -3,7 +3,7 @@
 
 #include <mcnet.h>
 
-#define PACKET(id, code) case 0x##id: { mcnet_packet_##id##_t* tmp = (mcnet_packet_##id##_t*)packet; printf("Packet ID: %d\n", tmp->pid); code break; };
+#define PACKET(id, code) case 0x##id: { mcnet_packet_##id##_t* tmp = (mcnet_packet_##id##_t*)packet; printf("Packet ID: 0x%02x\n", tmp->pid); code break; };
 
 #define BYTE(name)     printf("  [byte]     %d\n",   tmp->name);
 #define UBYTE(name)    printf("  [ubyte]    %u\n",   tmp->name);
@@ -16,7 +16,10 @@
 #define METADATA(name) printf("  [metadata] %d\n",   tmp->name##_len);
 
 void on_packet(mcnet_parser_t* parser, mcnet_packet_t* packet) {
-  printf("[%p] packet type: %02x\n", parser->data, packet->pid);
+  // This gets around the unused variable warning. Most of the time, you'd keep
+  // something inside the "data" field of this object, allowing you to tie the
+  // packets back to a client or stream.
+  (void)parser;
 
   switch(packet->pid) {
     PACKETS
