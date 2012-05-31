@@ -27,8 +27,8 @@
 #define FLOAT(name) if (data_len < nparsed + 4) { return 0; } packet.name = (float)htobe32(*((int32_t*)(data + nparsed))); nparsed += 4;
 #define DOUBLE(name) if (data_len < nparsed + 8) { return 0; } packet.name = (double)htobe64(*((int64_t*)(data + nparsed))); nparsed += 8;
 #define BLOB(name, length) if (data_len < nparsed + length) { return 0; } packet.name = data + nparsed; nparsed += length;
-#define STRING8(name) INT(name##_len) BLOB(name, packet.name##_len)
-#define STRING16(name) INT(name##_len) BLOB(name, packet.name##_len * 2)
+#define STRING8(name) SHORT(name##_len) BLOB(name, packet.name##_len)
+#define STRING16(name) SHORT(name##_len) BLOB(name, packet.name##_len * 2)
 #define METADATA(name)
 
 PACKETS
