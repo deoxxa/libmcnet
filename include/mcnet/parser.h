@@ -15,6 +15,6 @@ typedef struct mcnet_parser_settings_s {
   error_cb on_error;
 } mcnet_parser_settings_t;
 
-size_t mcnet_parser_execute(mcnet_parser_t* parser, mcnet_parser_settings_t* settings, char* data, size_t data_len);
+size_t mcnet_parser_execute(mcnet_parser_t* parser, mcnet_parser_settings_t* settings, uint8_t* data, size_t data_len);
 
 #endif

@@ -8,7 +8,7 @@
 #include "../include/mcnet/metadata.h"
 #include "../include/mcnet/parser.h"
 
-#define PACKET(id, code) size_t mcnet_parser_parse_##id(mcnet_parser_t* parser, mcnet_parser_settings_t* settings, char* data, size_t data_len) { \
+#define PACKET(id, code) size_t mcnet_parser_parse_##id(mcnet_parser_t* parser, mcnet_parser_settings_t* settings, uint8_t* data, size_t data_len) { \
   mcnet_packet_##id##_t packet; \
   size_t nparsed = 0; \
   UBYTE(pid) \
@@ -49,7 +49,7 @@ PACKETS
 
 #define PACKET(id, code) case 0x##id: { return mcnet_parser_parse_##id(parser, settings, data, data_len); }
 
-size_t mcnet_parser_execute(mcnet_parser_t* parser, mcnet_parser_settings_t* settings, char* data, size_t data_len) {
+size_t mcnet_parser_execute(mcnet_parser_t* parser, mcnet_parser_settings_t* settings, uint8_t* data, size_t data_len) {
   if (data_len < 1) {
     return 0;
   }

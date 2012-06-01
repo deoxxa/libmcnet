@@ -14,7 +14,7 @@
 #define LONG(name) int64_t name;
 #define FLOAT(name) float name;
 #define DOUBLE(name) double name;
-#define STRING8(name) int16_t name##_len; char* name;
+#define STRING8(name) int16_t name##_len; uint8_t* name;
 #define STRING16(name) STRING8(name)
 #define METADATA(name) int16_t name##_len; mcnet_metadata_t* name;
 #define CODE(code)

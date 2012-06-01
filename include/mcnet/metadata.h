@@ -32,7 +32,7 @@ typedef struct mcnet_metadata_float_s {
 typedef struct mcnet_metadata_string_s {
   MCNET_METADATA_FIELDS
   short data_length;
-  char* data;
+  uint8_t* data;
 } mcnet_metadata_string_t;
 
 typedef struct mcnet_metadata_sbs_s {
