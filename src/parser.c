@@ -19,6 +19,7 @@
   return nparsed; \
 }
 
+#define BOOL(name) if (data_len < nparsed + 1) { return 0; } packet.name = *((int8_t*)(data + nparsed)) ? 1 : 0; nparsed += 1;
 #define BYTE(name) if (data_len < nparsed + 1) { return 0; } packet.name = *((int8_t*)(data + nparsed)); nparsed += 1;
 #define UBYTE(name) if (data_len < nparsed + 1) { return 0; } packet.name = *((uint8_t*)(data + nparsed)); nparsed += 1;
 #define SHORT(name) if (data_len < nparsed + 2) { return 0; } packet.name = htobe16(*((int16_t*)(data + nparsed))); nparsed += 2;

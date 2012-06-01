@@ -16,6 +16,7 @@
 #define DOUBLE(name) double name;
 #define STRING8(name) int16_t name##_len; uint8_t* name;
 #define STRING16(name) STRING8(name)
+#define BLOB(name, length) uint8_t* name;
 #define METADATA(name) int16_t name##_len; mcnet_metadata_t* name;
 #define CODE(code)
 
@@ -42,6 +43,7 @@ PACKETS
 #undef DOUBLE
 #undef STRING8
 #undef STRING16
+#undef BLOB
 #undef METADATA
 #undef CODE
 
