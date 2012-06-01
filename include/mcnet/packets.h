@@ -14,6 +14,8 @@ PACKET(08, SHORT(health) SHORT(hunger) FLOAT(saturation)) \
 PACKET(09, INT(dimension) BYTE(difficulty) BYTE(server_mode) SHORT(world_height) STRING16(level_type)) \
 PACKET(0A, BYTE(on_ground)) \
 PACKET(0B, DOUBLE(x) DOUBLE(y) DOUBLE(stance) DOUBLE(z) BYTE(on_ground)) \
+PACKET(0C, FLOAT(yaw) FLOAT(pitch) BOOL(on_ground)) \
+PACKET(0D, DOUBLE(x) DOUBLE(y) DOUBLE(stance) DOUBLE(z) FLOAT(yaw) FLOAT(pitch) BOOL(on_ground)) \
 PACKET(0E, BYTE(status) SHORT(x) BYTE(y) SHORT(z) BYTE(face)) \
 PACKET(0F, BYTE(status) SHORT(x) BYTE(y) SHORT(z) BYTE(direction)) \
 PACKET(10, SHORT(slot_id)) \
