@@ -39,6 +39,34 @@ PACKET(26, INT(eid) BYTE(status)) \
 PACKET(27, INT(eid) INT(attached_to)) \
 PACKET(28, INT(eid) METADATA(metadata)) \
 PACKET(29, INT(eid) BYTE(effect) BYTE(amplification) SHORT(duration)) \
-PACKET(2A, INT(eid) BYTE(effect))
+PACKET(2A, INT(eid) BYTE(effect)) \
+PACKET(2B, FLOAT(experience_bar) SHORT(level) SHORT(experience)) \
+PACKET(32, INT(x) INT(z) BOOL(mode)) \
+/*PACKET(33, INT(x) INT(z) BOOL(solid) USHORT(primary_bitmap) USHORT(add_bitmap) INT(data_len) INT(unused) BLOB(data, data_len))*/ \
+/*PACKET(34, INT(x) INT(z) SHORT(count) INT(data_len) BLOB(data, data_len))*/ \
+PACKET(35, INT(x) BYTE(y) INT(z) BYTE(type) BYTE(meta)) \
+PACKET(36, INT(x) BYTE(y) INT(z) BYTE(one) BYTE(two)) \
+/*PACKET(3C, DOUBLE(x) DOUBLE(y) DOUBLE(z) FLOAT(radius) INT(count) BLOB(data, count * 3))*/ \
+PACKET(3D, INT(effect_id) INT(x) BYTE(y) INT(z) INT(data)) \
+PACKET(46, BYTE(reason) BYTE(mode)) \
+PACKET(47, INT(eid) BOOL(unknown) INT(x) INT(y) INT(z)) \
+PACKET(64, BYTE(window) BYTE(type) STRING16(title) BYTE(slots)) \
+PACKET(65, BYTE(window)) \
+/*PACKET(66, BYTE(window) SHORT(slot) BYTE(right_click) SHORT(action) BOOL(shift) SLOT(item))*/ \
+/*PACKET(67, BYTE(window) SHORT(slot) SLOT(item))*/ \
+/*PACKET(68, BYTE(window) SHORT(count) SLOTS(items))*/ \
+PACKET(69, BYTE(window) SHORT(property) SHORT(value)) \
+PACKET(6A, BYTE(window) SHORT(action) BOOL(accepted)) \
+/*PACKET(6B, SHORT(slot) SLOT(item)) \*/ \
+PACKET(6C, BYTE(window) BYTE(echantment)) \
+PACKET(82, INT(x) SHORT(y) INT(z) STRING16(line1) STRING16(line2) STRING16(line3) STRING16(line4)) \
+/*PACKET(83, SHORT(type) SHORT(id) UBYTE(data_len) BLOB(data, data_len))*/ \
+PACKET(84, INT(x) SHORT(y) INT(z) BYTE(action) INT(custom1) INT(custom2) INT(custom3)) \
+PACKET(C8, INT(statistic) BYTE(amount)) \
+PACKET(C9, STRING16(name) BOOL(online) SHORT(ping)) \
+PACKET(CA, BOOL(invincible) BOOL(flying) BOOL(can_fly) BOOL(instant_destroy)) \
+/*PACKET(FA, STRING16(channel) SHORT(data_length) BLOB(data, length))*/ \
+PACKET(FE, ) \
+PACKET(FF, STRING16(reason))
 
 #endif
