@@ -2,7 +2,7 @@
 #define MCNET_METADATA_H
 
 #include <stdint.h>
-#include <sys/types.h>
+#include <stddef.h>
 
 typedef struct mcnet_metadata_s {
   int8_t count;

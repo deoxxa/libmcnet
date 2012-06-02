@@ -1,6 +1,9 @@
 #ifndef MCNET_PARSER_H
 #define MCNET_PARSER_H
 
+#include <stdint.h>
+#include <stddef.h>
+
 #include "packets.h"
 
 typedef struct mcnet_parser_s {

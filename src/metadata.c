@@ -1,5 +1,5 @@
 #include <stdint.h>
-#include <sys/types.h>
+#include <stddef.h>
 
 #include "../include/mcnet/error.h"
 #include "../include/mcnet/read.h"
