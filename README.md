@@ -10,8 +10,8 @@ libmcnet makes the life of the average Minecraft server/client developer easier
 by providing a convenient, stable interface for parsing Minecraft network data.
 It stays out of your way as much as possible, and assumes pretty much nothing
 about the implementation of the code using it. To this end, it is very much not
-a "batteries included" library. You have to take care of things like encryption,
-character set conversion, and even some metadata parsing on your own.
+a "batteries included" library. You have to take care of things like encryption
+and character set conversion.
 
 Don't worry. It's not too hard.
 
@@ -20,7 +20,7 @@ Features
 
 1. Simple interface
 2. Interruptible parser
-3. No memory allocations
+3. No malloc() - memory leaks are *not possible*
 4. Coherent, hackable implementation
 
 Documentation
@@ -31,7 +31,7 @@ To do! Oh no! For now, please look at the example.
 Example
 -------
 
-Also see [example.c](example.c).
+Also see [example.c](example.c) for something more comprehensive.
 
 ```c
 #include <stdio.h>
@@ -61,6 +61,16 @@ int main() {
   size_t nparsed = 0, offset = 0;
 
   while ((nparsed = mcnet_parser_execute(&parser, &settings, data + offset, 10 - offset)) != 0) {
+    if (nparsed == MCNET_EAGAIN) {
+      printf("need more data\n");
+      break;
+    }
+
+    if (nparsed == MCNET_EINVALID) {
+      printf("invalid data encountered\n");
+      break;
+    }
+
     printf("parsed %d bytes\n", nparsed);
     offset += nparsed;
   }
