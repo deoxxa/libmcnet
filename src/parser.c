@@ -1,48 +1,18 @@
+#include <stdio.h>
 #include <stdlib.h>
-#include <sys/types.h>
-#define __USE_BSD
-#include <endian.h>
+#include <stddef.h>
 
-#include "../include/mcnet.h"
+#include "../include/mcnet/error.h"
+#include "../include/mcnet/packets.h"
+#include "../include/mcnet/structs.h"
+#include "../include/mcnet/metadata.h"
+#include "../include/mcnet/read.h"
+#include "../include/mcnet/parser.h"
 
-#define EXECUTE_CASE(x) case 0x##x: { return mcnet_parser_parse_##x(parser, settings, data, data_len); }
-
-size_t mcnet_parser_execute(mcnet_parser_t* parser, mcnet_parser_settings_t* settings, char* data, size_t data_len) {
-  if (data_len < 1) {
-    return 0;
-  }
-
-  switch (data[0]) {
-    EXECUTE_CASE(00);
-    EXECUTE_CASE(01);
-    EXECUTE_CASE(02);
-    EXECUTE_CASE(03);
-    EXECUTE_CASE(04);
-    EXECUTE_CASE(05);
-    EXECUTE_CASE(06);
-    EXECUTE_CASE(07);
-    EXECUTE_CASE(08);
-    EXECUTE_CASE(09);
-    EXECUTE_CASE(0A);
-    EXECUTE_CASE(0B);
-    EXECUTE_CASE(0E);
-    EXECUTE_CASE(0F);
-
-    default: {
-      if (settings->on_error != NULL) {
-        settings->on_error(parser, -1);
-      }
-
-      return 0;
-    }
-  }
-
-  return 0;
-}
-
-#define PARSER(id, code) PARSER_DEFINITION(id) { \
+#define PACKET(id, code) int mcnet_parser_parse_##id(mcnet_parser_t* parser, mcnet_parser_settings_t* settings, uint8_t* data, size_t data_len) { \
   mcnet_packet_##id##_t packet; \
   size_t nparsed = 0; \
+  UBYTE(pid) \
   code \
   if (settings->on_packet != NULL) { \
     settings->on_packet(parser, (mcnet_packet_t*)&packet); \
@@ -50,113 +20,60 @@ size_t mcnet_parser_execute(mcnet_parser_t* parser, mcnet_parser_settings_t* set
   return nparsed; \
 }
 
-#define PARSE_BYTE(name) if (data_len < nparsed + 1) { return 0; } packet.name = *((uint8_t*)(data + nparsed)); nparsed += 1;
-#define PARSE_SHORT(name) if (data_len < nparsed + 2) { return 0; } packet.name = htobe16(*((int16_t*)(data + nparsed))); nparsed += 2;
-#define PARSE_INT(name) if (data_len < nparsed + 4) { return 0; } packet.name = htobe32(*((int32_t*)(data + nparsed))); nparsed += 4;
-#define PARSE_LONG(name) if (data_len < nparsed + 8) { return 0; } packet.name = htobe64(*((int64_t*)(data + nparsed))); nparsed += 8;
-#define PARSE_FLOAT(name) if (data_len < nparsed + 4) { return 0; } packet.name = (float)htobe32(*((int32_t*)(data + nparsed))); nparsed += 4;
-#define PARSE_DOUBLE(name) if (data_len < nparsed + 8) { return 0; } packet.name = (double)htobe64(*((int64_t*)(data + nparsed))); nparsed += 8;
-#define PARSE_BLOB(name, length) if (data_len < nparsed + length) { return 0; } packet.name = data + nparsed; nparsed += length;
-#define PARSE_STRING16(name) PARSE_INT(name##_len) PARSE_BLOB(name, packet.name##_len * 2)
+#define BOOL(name)         if (data_len < nparsed + 1)      { return MCNET_EAGAIN; } packet.name = *((int8_t*)(data + nparsed)) ? 1 : 0; nparsed += 1;
+#define BYTE(name)         if (data_len < nparsed + 1)      { return MCNET_EAGAIN; } packet.name = *((int8_t*)(data + nparsed));         nparsed += 1;
+#define UBYTE(name)        if (data_len < nparsed + 1)      { return MCNET_EAGAIN; } packet.name = *((uint8_t*)(data + nparsed));        nparsed += 1;
+#define SHORT(name)        if (data_len < nparsed + 2)      { return MCNET_EAGAIN; } packet.name = mcnet_read_int16(data + nparsed);     nparsed += 2;
+#define INT(name)          if (data_len < nparsed + 4)      { return MCNET_EAGAIN; } packet.name = mcnet_read_int32(data + nparsed);     nparsed += 4;
+#define LONG(name)         if (data_len < nparsed + 8)      { return MCNET_EAGAIN; } packet.name = mcnet_read_int64(data + nparsed);     nparsed += 8;
+#define FLOAT(name)        if (data_len < nparsed + 4)      { return MCNET_EAGAIN; } packet.name = mcnet_read_float(data + nparsed);     nparsed += 4;
+#define DOUBLE(name)       if (data_len < nparsed + 8)      { return MCNET_EAGAIN; } packet.name = mcnet_read_double(data + nparsed);    nparsed += 8;
+#define BLOB(name, length) if (data_len < nparsed + length) { return MCNET_EAGAIN; } packet.name = data + nparsed;                       nparsed += length;
+#define STRING8(name) SHORT(name##_len) BLOB(name, packet.name##_len)
+#define STRING16(name) SHORT(name##_len) BLOB(name, packet.name##_len * 2)
+#define METADATA(name) \
+  size_t name = mcnet_metadata_parser_parse(NULL, data + nparsed, data_len); \
+  if ((name == MCNET_EAGAIN) || (name == MCNET_EINVALID)) { return name; } \
+  nparsed += name;
 
-PARSER(00,
-  PARSE_BYTE(pid)
-  PARSE_INT(id)
-)
+PACKETS
 
-PARSER(01,
-  PARSE_BYTE(pid)
-  PARSE_INT(eid)
-  PARSE_STRING16(username)
-  PARSE_STRING16(level_type)
-  PARSE_INT(server_mode)
-  PARSE_INT(dimension)
-  PARSE_BYTE(difficulty)
-  PARSE_BYTE(world_height)
-  PARSE_BYTE(max_players)
-)
+#undef BOOL
+#undef BYTE
+#undef UBYTE
+#undef SHORT
+#undef INT
+#undef LONG
+#undef FLOAT
+#undef DOUBLE
+#undef STRING8
+#undef STRING16
+#undef METADATA
 
-PARSER(02,
-  PARSE_BYTE(pid)
-  PARSE_STRING16(data)
-)
+#undef PACKET
 
-PARSER(03,
-  PARSE_BYTE(pid)
-  PARSE_STRING16(data)
-)
+#define PACKET(id, code) case 0x##id: { return mcnet_parser_parse_##id(parser, settings, data, data_len); }
 
-PARSER(04,
-  PARSE_BYTE(pid)
-  PARSE_LONG(time)
-)
+size_t mcnet_parser_execute(mcnet_parser_t* parser, mcnet_parser_settings_t* settings, uint8_t* data, size_t data_len) {
+  if (data_len < 1) {
+    return MCNET_EAGAIN;
+  }
 
-PARSER(05,
-  PARSE_BYTE(pid)
-  PARSE_INT(eid)
-  PARSE_SHORT(slot)
-  PARSE_SHORT(itemid)
-  PARSE_SHORT(damage)
-)
+  switch (data[0]) {
+    PACKETS
 
-PARSER(06,
-  PARSE_BYTE(pid)
-  PARSE_INT(x)
-  PARSE_INT(y)
-  PARSE_INT(z)
-)
+    default: {
+      printf("Unknown packet: %02x\n", data[0]);
 
-PARSER(07,
-  PARSE_BYTE(pid)
-  PARSE_INT(user)
-  PARSE_INT(target)
-  PARSE_BYTE(mouse)
-)
+      if (settings->on_error != NULL) {
+        settings->on_error(parser, -1);
+      }
 
-PARSER(08,
-  PARSE_BYTE(pid)
-  PARSE_SHORT(health)
-  PARSE_SHORT(hunger)
-  PARSE_FLOAT(saturation)
-)
+      return MCNET_EAGAIN;
+    }
+  }
 
-PARSER(09,
-  PARSE_BYTE(pid)
-  PARSE_INT(dimension)
-  PARSE_BYTE(difficulty)
-  PARSE_BYTE(server_mode)
-  PARSE_SHORT(world_height)
-  PARSE_STRING16(level_type)
-)
+  return MCNET_EAGAIN;
+}
 
-PARSER(0A,
-  PARSE_BYTE(pid)
-  PARSE_BYTE(on_ground)
-)
-
-PARSER(0B,
-  PARSE_BYTE(pid)
-  PARSE_DOUBLE(x)
-  PARSE_DOUBLE(y)
-  PARSE_DOUBLE(stance)
-  PARSE_DOUBLE(z)
-  PARSE_BYTE(on_ground)
-)
-
-PARSER(0E,
-  PARSE_BYTE(pid)
-  PARSE_BYTE(status)
-  PARSE_SHORT(x)
-  PARSE_BYTE(y)
-  PARSE_SHORT(z)
-  PARSE_BYTE(face)
-)
-
-PARSER(0F,
-  PARSE_BYTE(pid)
-  PARSE_BYTE(status)
-  PARSE_SHORT(x)
-  PARSE_BYTE(y)
-  PARSE_SHORT(z)
-  PARSE_BYTE(direction)
-)
+#undef PACKET
