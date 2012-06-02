@@ -12,7 +12,7 @@
 #define INT(name)          printf("  [int]      %d\n",   tmp->name);
 #define LONG(name)         printf("  [long]     %lld\n", tmp->name);
 #define FLOAT(name)        printf("  [float]    %f\n",   tmp->name);
-#define DOUBLE(name)       printf("  [double]   %f\n",   tmp->name);
+#define DOUBLE(name)       printf("  [double]   %g\n",   tmp->name);
 #define STRING16(name)     printf("  [string16] %d -> ", tmp->name##_len); for (int i = 0; i < tmp->name##_len; ++i) { printf("%c", tmp->name[i*2+1]); } printf("\n");
 #define STRING8(name)      printf("  [string8]  %d -> ", tmp->name##_len); for (int i = 0; i < tmp->name##_len; ++i) { printf("%c", tmp->name[i]); } printf("\n");
 #define BLOB(name, length) printf("  [blob]     %d -> ", length); for (int i = 0; i < length; ++i) { printf("%02x", tmp->name[i]); if (i != length) { printf(":"); } } printf("\n");
@@ -54,13 +54,23 @@ int main() {
   uint8_t data[] = {
     0x00, 0x00, 0x00, 0x00, 0x01,
     0x00, 0x00, 0x00, 0x00, 0x02,
-    0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x04, 0x00, 0x61, 0x00, 0x73, 0x00, 0x64, 0x00, 0x66, 0x00, 0x01, 0x00, 0x65, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x03, 0x04, 0x05, 0x06,
+    0x01, 0x00, 0x00, 0x00, 0x01, 0x00, 0x04, 0x00, 0x61, 0x00, 0x73, 0x00, 0x64, 0x00, 0x66, 0x00, 0x01, 0x00, 0x65, 0x00, 0x00, 0x00, 0x02, 0x00, 0x00, 0x00, 0x03, 0x04, 0x05, 
     0x17, 0x00, 0x00, 0x00, 0x01, 0x02, 0x00, 0x00, 0x00, 0x03, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00, 0x00, 0x05, 0x00, 0x00, 0x00, 0x06, 0x00, 0x07, 0x00, 0x08, 0x00, 0x09
   };
 
   size_t nparsed = 0, offset = 0;
 
   while ((nparsed = mcnet_parser_execute(&parser, &settings, data + offset, sizeof(data) - offset)) != 0) {
+    if (nparsed == MCNET_EAGAIN) {
+      printf("need more data\n");
+      break;
+    }
+
+    if (nparsed == MCNET_EINVALID) {
+      printf("invalid data encountered\n");
+      break;
+    }
+
     printf("parsed %d bytes\n", nparsed);
     offset += nparsed;
   }
