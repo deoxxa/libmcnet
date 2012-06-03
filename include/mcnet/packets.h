@@ -25,7 +25,7 @@ PACKET(13, INT(eid) BYTE(action)) \
 PACKET(14, INT(eid) STRING16(name) INT(x) INT(y) INT(z) BYTE(yaw) BYTE(pitch) SHORT(current_item)) \
 PACKET(15, INT(eid) SHORT(item_id) BYTE(count) SHORT(damage) INT(x) INT(y) INT(z) BYTE(rotation) BYTE(pitch) BYTE(roll)) \
 PACKET(16, INT(eid) INT(collected_by)) \
-PACKET(17, INT(eid) BYTE(type) INT(x) INT(y) INT(z) INT(thrower) SHORT(speed_x) SHORT(speed_y) SHORT(speed_z)) \
+PACKET(17, INT(eid) BYTE(type) INT(x) INT(y) INT(z) INT(thrower) CODE(if (packet.thrower == 0) { packet.speed_x = 0; packet.speed_y = 0; packet.speed_z = 0; goto done; }) SHORT(speed_x) SHORT(speed_y) SHORT(speed_z) CODE(done:)) \
 PACKET(18, INT(eid) BYTE(type) INT(x) INT(y) INT(z) BYTE(yaw) BYTE(pitch) BYTE(head_yaw) METADATA(metadata)) \
 PACKET(19, INT(eid) STRING16(title) INT(x) INT(y) INT(z) INT(direction)) \
 PACKET(1A, INT(eid) INT(x) INT(y) INT(z) SHORT(count)) \
@@ -44,30 +44,30 @@ PACKET(29, INT(eid) BYTE(effect) BYTE(amplification) SHORT(duration)) \
 PACKET(2A, INT(eid) BYTE(effect)) \
 PACKET(2B, FLOAT(experience_bar) SHORT(level) SHORT(experience)) \
 PACKET(32, INT(x) INT(z) BOOL(mode)) \
-/*PACKET(33, INT(x) INT(z) BOOL(solid) USHORT(primary_bitmap) USHORT(add_bitmap) INT(data_len) INT(unused) BLOB(data, data_len))*/ \
-/*PACKET(34, INT(x) INT(z) SHORT(count) INT(data_len) BLOB(data, data_len))*/ \
+PACKET(33, INT(x) INT(z) BOOL(solid) USHORT(primary_bitmap) USHORT(add_bitmap) INT(data_len) INT(unused) BLOB(data, data_len)) \
+PACKET(34, INT(x) INT(z) SHORT(count) INT(data_len) BLOB(data, data_len)) \
 PACKET(35, INT(x) BYTE(y) INT(z) BYTE(type) BYTE(meta)) \
-PACKET(36, INT(x) BYTE(y) INT(z) BYTE(one) BYTE(two)) \
-/*PACKET(3C, DOUBLE(x) DOUBLE(y) DOUBLE(z) FLOAT(radius) INT(count) BLOB(data, count * 3))*/ \
+PACKET(36, INT(x) SHORT(y) INT(z) BYTE(one) BYTE(two)) \
+PACKET(3C, DOUBLE(x) DOUBLE(y) DOUBLE(z) FLOAT(radius) INT(count) BLOB(data, count * 3)) \
 PACKET(3D, INT(effect_id) INT(x) BYTE(y) INT(z) INT(data)) \
 PACKET(46, BYTE(reason) BYTE(mode)) \
 PACKET(47, INT(eid) BOOL(unknown) INT(x) INT(y) INT(z)) \
 PACKET(64, BYTE(window) BYTE(type) STRING16(title) BYTE(slots)) \
 PACKET(65, BYTE(window)) \
-/*PACKET(66, BYTE(window) SHORT(slot) BYTE(right_click) SHORT(action) BOOL(shift) SLOT(item))*/ \
-/*PACKET(67, BYTE(window) SHORT(slot) SLOT(item))*/ \
-/*PACKET(68, BYTE(window) SHORT(count) SLOTS(items))*/ \
+PACKET(66, BYTE(window) SHORT(slot) BYTE(right_click) SHORT(action) BOOL(shift) SLOT(slot_data)) \
+PACKET(67, BYTE(window) SHORT(slot) SLOT(slot_data)) \
+PACKET(68, BYTE(window) SHORT(count) SLOTS(slot_data, count)) \
 PACKET(69, BYTE(window) SHORT(property) SHORT(value)) \
 PACKET(6A, BYTE(window) SHORT(action) BOOL(accepted)) \
-/*PACKET(6B, SHORT(slot) SLOT(item)) \*/ \
+PACKET(6B, SHORT(slot) SLOT(slot_data)) \
 PACKET(6C, BYTE(window) BYTE(echantment)) \
 PACKET(82, INT(x) SHORT(y) INT(z) STRING16(line1) STRING16(line2) STRING16(line3) STRING16(line4)) \
-/*PACKET(83, SHORT(type) SHORT(id) UBYTE(data_len) BLOB(data, data_len))*/ \
+PACKET(83, SHORT(type) SHORT(id) UBYTE(data_len) BLOB(data, data_len)) \
 PACKET(84, INT(x) SHORT(y) INT(z) BYTE(action) INT(custom1) INT(custom2) INT(custom3)) \
 PACKET(C8, INT(statistic) BYTE(amount)) \
 PACKET(C9, STRING16(name) BOOL(online) SHORT(ping)) \
 PACKET(CA, BOOL(invincible) BOOL(flying) BOOL(can_fly) BOOL(instant_destroy)) \
-/*PACKET(FA, STRING16(channel) SHORT(data_length) BLOB(data, length))*/ \
+PACKET(FA, STRING16(channel) SHORT(data_length) BLOB(data, data_length)) \
 PACKET(FE, ) \
 PACKET(FF, STRING16(reason))
 

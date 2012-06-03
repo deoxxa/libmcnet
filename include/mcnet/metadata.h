@@ -59,11 +59,13 @@ typedef struct mcnet_metadata_entry_iii_s {
 
 struct mcnet_metadata_parser_s;
 typedef void (*mcnet_metadata_parser_entry_cb)(struct mcnet_metadata_parser_s* parser, mcnet_metadata_entry_t* entry);
+typedef void (*mcnet_metadata_parser_complete_cb)(struct mcnet_metadata_parser_s* parser);
 typedef void (*mcnet_metadata_parser_error_cb)(struct mcnet_metadata_parser_s* parser, int error);
 
 typedef struct mcnet_metadata_parser_s {
   void* data;
   mcnet_metadata_parser_entry_cb on_entry;
+  mcnet_metadata_parser_complete_cb on_complete;
   mcnet_metadata_parser_error_cb on_error;
 } mcnet_metadata_parser_t;
 
