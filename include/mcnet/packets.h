@@ -25,7 +25,7 @@ PACKET(13, INT(eid) BYTE(action)) \
 PACKET(14, INT(eid) STRING16(name) INT(x) INT(y) INT(z) BYTE(yaw) BYTE(pitch) SHORT(current_item)) \
 PACKET(15, INT(eid) SHORT(item_id) BYTE(count) SHORT(damage) INT(x) INT(y) INT(z) BYTE(rotation) BYTE(pitch) BYTE(roll)) \
 PACKET(16, INT(eid) INT(collected_by)) \
-PACKET(17, INT(eid) BYTE(type) INT(x) INT(y) INT(z) INT(thrower) SHORT(speed_x) SHORT(speed_y) SHORT(speed_z)) \
+PACKET(17, INT(eid) BYTE(type) INT(x) INT(y) INT(z) INT(thrower) CODE(if (packet.thrower == 0) { packet.speed_x = 0; packet.speed_y = 0; packet.speed_z = 0; goto done; }) SHORT(speed_x) SHORT(speed_y) SHORT(speed_z) CODE(done:)) \
 PACKET(18, INT(eid) BYTE(type) INT(x) INT(y) INT(z) BYTE(yaw) BYTE(pitch) BYTE(head_yaw) METADATA(metadata)) \
 PACKET(19, INT(eid) STRING16(title) INT(x) INT(y) INT(z) INT(direction)) \
 PACKET(1A, INT(eid) INT(x) INT(y) INT(z) SHORT(count)) \

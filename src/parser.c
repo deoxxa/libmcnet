@@ -20,6 +20,7 @@
   return nparsed; \
 }
 
+#define CODE(data) data
 #define BOOL(name)         if (data_len < nparsed + 1)             { return MCNET_EAGAIN; } packet.name = mcnet_read_bool(data + nparsed);   nparsed += 1;
 #define BYTE(name)         if (data_len < nparsed + 1)             { return MCNET_EAGAIN; } packet.name = mcnet_read_int8(data + nparsed);   nparsed += 1;
 #define UBYTE(name)        if (data_len < nparsed + 1)             { return MCNET_EAGAIN; } packet.name = mcnet_read_uint8(data + nparsed);  nparsed += 1;

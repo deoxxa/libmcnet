@@ -5,6 +5,7 @@
 
 #define PACKET(id, code) case 0x##id: { mcnet_packet_##id##_t* tmp = (mcnet_packet_##id##_t*)packet; printf("Packet ID: 0x%02x\n", tmp->pid); code break; };
 
+#define CODE(data)
 #define BOOL(name)          printf("  [bool]     %c\n",   tmp->name ? 'T' : 'F');
 #define BYTE(name)          printf("  [byte]     %d\n",   tmp->name);
 #define UBYTE(name)         printf("  [ubyte]    %u\n",   tmp->name);
@@ -33,6 +34,7 @@ void on_packet(mcnet_parser_t* parser, mcnet_packet_t* packet) {
   }
 }
 
+#undef CODE
 #undef BOOL
 #undef BYTE
 #undef UBYTE
@@ -83,7 +85,18 @@ int main() {
     0x00, 0x00, 0x00, 0x06,
     0x00, 0x07,
     0x00, 0x08,
-    0x00, 0x09
+    0x00, 0x09,
+
+    0x17,
+    0x00, 0x00, 0x00, 0x01,
+    0x02,
+    0x00, 0x00, 0x00, 0x03,
+    0x00, 0x00, 0x00, 0x04,
+    0x00, 0x00, 0x00, 0x05,
+    0x00, 0x00, 0x00, 0x00,
+
+    0x00,
+    0x00, 0x00, 0x00, 0x03
   };
 
   size_t nparsed = 0, offset = 0;
