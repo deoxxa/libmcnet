@@ -88,10 +88,10 @@ size_t mcnet_parser_execute(mcnet_parser_t* parser, mcnet_parser_settings_t* set
 
     default: {
       if (settings->on_error != NULL) {
-        settings->on_error(parser, -1);
+        settings->on_error(parser, MCNET_EINVALID);
       }
 
-      return MCNET_EAGAIN;
+      return MCNET_EINVALID;
     }
   }
 
