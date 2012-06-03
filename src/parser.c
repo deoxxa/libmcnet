@@ -6,6 +6,7 @@
 #include "../include/mcnet/packets.h"
 #include "../include/mcnet/structs.h"
 #include "../include/mcnet/metadata.h"
+#include "../include/mcnet/slot.h"
 #include "../include/mcnet/read.h"
 #include "../include/mcnet/parser.h"
 
@@ -35,6 +36,25 @@
 #define METADATA(name) \
   size_t name = mcnet_metadata_parser_parse(NULL, data + nparsed, data_len); \
   if ((name == MCNET_EAGAIN) || (name == MCNET_EINVALID)) { return name; } \
+  packet.name##_len = name; \
+  packet.name = data + nparsed; \
+  nparsed += name;
+#define SLOT(name) \
+  size_t name = mcnet_slot_parser_parse(NULL, data + nparsed, data_len); \
+  if ((name == MCNET_EAGAIN) || (name == MCNET_EINVALID)) { return name; } \
+  packet.name##_len = name; \
+  packet.name = data + nparsed; \
+  nparsed += name;
+#define SLOTS(name, len) \
+  size_t name = 0; \
+  int i = 0; \
+  for (i = 0; i < packet.len; ++i) { \
+    size_t tmp = mcnet_slot_parser_parse(NULL, data + nparsed, data_len); \
+    if ((name == MCNET_EAGAIN) || (name == MCNET_EINVALID)) { return name; } \
+    name += tmp; \
+  } \
+  packet.name##_len = name; \
+  packet.name = data + nparsed; \
   nparsed += name;
 
 PACKETS
@@ -51,6 +71,8 @@ PACKETS
 #undef STRING8
 #undef STRING16
 #undef METADATA
+#undef SLOT
+#undef SLOTS
 
 #undef PACKET
 
@@ -60,6 +82,8 @@ size_t mcnet_parser_execute(mcnet_parser_t* parser, mcnet_parser_settings_t* set
   if (data_len < 1) {
     return MCNET_EAGAIN;
   }
+
+  printf("trying to parse packet 0x%02x\n", data[0]);
 
   switch (data[0]) {
     PACKETS

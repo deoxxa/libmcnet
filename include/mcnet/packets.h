@@ -54,12 +54,12 @@ PACKET(46, BYTE(reason) BYTE(mode)) \
 PACKET(47, INT(eid) BOOL(unknown) INT(x) INT(y) INT(z)) \
 PACKET(64, BYTE(window) BYTE(type) STRING16(title) BYTE(slots)) \
 PACKET(65, BYTE(window)) \
-/*PACKET(66, BYTE(window) SHORT(slot) BYTE(right_click) SHORT(action) BOOL(shift) SLOT(item))*/ \
-/*PACKET(67, BYTE(window) SHORT(slot) SLOT(item))*/ \
-/*PACKET(68, BYTE(window) SHORT(count) SLOTS(items))*/ \
+PACKET(66, BYTE(window) SHORT(slot) BYTE(right_click) SHORT(action) BOOL(shift) SLOT(slot_data)) \
+PACKET(67, BYTE(window) SHORT(slot) SLOT(slot_data)) \
+PACKET(68, BYTE(window) SHORT(count) SLOTS(slot_data, count)) \
 PACKET(69, BYTE(window) SHORT(property) SHORT(value)) \
 PACKET(6A, BYTE(window) SHORT(action) BOOL(accepted)) \
-/*PACKET(6B, SHORT(slot) SLOT(item)) \*/ \
+PACKET(6B, SHORT(slot) SLOT(slot_data)) \
 PACKET(6C, BYTE(window) BYTE(echantment)) \
 PACKET(82, INT(x) SHORT(y) INT(z) STRING16(line1) STRING16(line2) STRING16(line3) STRING16(line4)) \
 PACKET(83, SHORT(type) SHORT(id) UBYTE(data_len) BLOB(data, data_len)) \

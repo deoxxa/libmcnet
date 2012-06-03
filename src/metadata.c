@@ -18,6 +18,8 @@ size_t mcnet_metadata_parser_parse(mcnet_metadata_parser_t* parser, uint8_t* dat
     nparsed += this_round;
 
     if (this_round == 1) {
+      if (parser && parser->on_complete) { parser->on_complete(parser); }
+
       break;
     }
   }

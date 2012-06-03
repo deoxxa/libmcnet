@@ -11,11 +11,14 @@ obj/parser.o: src/parser.c
 obj/metadata.o: src/metadata.c
 	$(CC) $(CFLAGS) $(LDFLAGS) -c -o obj/metadata.o src/metadata.c
 
+obj/slot.o: src/slot.c
+	$(CC) $(CFLAGS) $(LDFLAGS) -c -o obj/slot.o src/slot.c
+
 obj/example.o: example.c
 	$(CC) $(CFLAGS) $(LDFLAGS) -c -o obj/example.o example.c
 
-bin/example: obj/read.o obj/parser.o obj/metadata.o obj/example.o
-	$(CC) $(CFLAGS) $(LDFLAGS) -o bin/example obj/example.o obj/read.o obj/parser.o obj/metadata.o
+bin/example: obj/read.o obj/parser.o obj/metadata.o obj/slot.o obj/example.o
+	$(CC) $(CFLAGS) $(LDFLAGS) -o bin/example obj/example.o obj/read.o obj/parser.o obj/metadata.o obj/slot.o
 
 clean:
 	rm -f obj/* bin/*
