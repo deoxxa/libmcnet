@@ -1,4 +1,4 @@
-#include <stdlib.h>
+#include <stdint.h>
 #include <stddef.h>
 
 #include "../include/mcnet/error.h"

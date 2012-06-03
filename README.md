@@ -35,7 +35,7 @@ Also see [example.c](example.c) for something more comprehensive.
 
 ```c
 #include <stdio.h>
-#include <stdlib.h>
+#include <stddef.h>
 
 #include <mcnet.h>
 
