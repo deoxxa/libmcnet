@@ -1,3 +1,4 @@
 /obj/*
 /example
 /libmcnet.so
+/libmcnet.a
