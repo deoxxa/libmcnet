@@ -1,6 +1,10 @@
 #ifndef MCNET_PARSER_H
 #define MCNET_PARSER_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdint.h>
 #include <stddef.h>
 
@@ -23,5 +27,9 @@ typedef struct mcnet_parser_settings_s {
 } mcnet_parser_settings_t;
 
 size_t mcnet_parser_execute(mcnet_parser_t* parser, mcnet_parser_settings_t* settings, uint8_t* data, size_t data_len);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

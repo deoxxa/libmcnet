@@ -1,6 +1,10 @@
 #ifndef MCNET_STRUCTS_H
 #define MCNET_STRUCTS_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdint.h>
 
 #include "packets.h"
@@ -51,5 +55,9 @@ PACKETS
 #undef SLOT
 #undef SLOTS
 #undef CODE
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

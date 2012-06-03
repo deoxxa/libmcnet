@@ -1,6 +1,10 @@
 #ifndef MCNET_METADATA_H
 #define MCNET_METADATA_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <stdint.h>
 #include <stddef.h>
 
@@ -71,5 +75,9 @@ typedef struct mcnet_metadata_parser_s {
 
 size_t mcnet_metadata_parser_parse(mcnet_metadata_parser_t* parser, uint8_t* data, size_t len);
 size_t mcnet_metadata_parser_execute(mcnet_metadata_parser_t* parser, uint8_t* data, size_t len);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

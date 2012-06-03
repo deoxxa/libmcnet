@@ -1,6 +1,10 @@
 #ifndef MCNET_SLOT_H
 #define MCNET_SLOT_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct mcnet_slot_s {
   int16_t item;
   int8_t count;
@@ -20,5 +24,9 @@ typedef struct mcnet_slot_parser_s {
 } mcnet_slot_parser_t;
 
 size_t mcnet_slot_parser_parse(mcnet_slot_parser_t* parser, uint8_t* data, size_t len);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

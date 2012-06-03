@@ -1,6 +1,10 @@
 #ifndef MCNET_PACKETS_H
 #define MCNET_PACKETS_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define PACKETS \
 PACKET(00, INT(id)) \
 PACKET(01, CODE(if ((parser != NULL) && (parser->type == MCNET_PARSER_TYPE_CLIENT)) { goto done; }) INT(eid) STRING16(level_type) BYTE(server_mode) BYTE(dimension) BYTE(difficulty) UBYTE(world_height) BYTE(max_players) CODE(done:)) \
@@ -75,5 +79,9 @@ PACKET(FC, SHORT(shared_secret_len) BLOB(shared_secret, shared_secret_len)) \
 PACKET(FD, STRING16(server_id) SHORT(public_key_len) BLOB(public_key, public_key_len)) \
 PACKET(FE, ) \
 PACKET(FF, STRING16(reason))
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
