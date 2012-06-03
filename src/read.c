@@ -2,8 +2,16 @@
 
 #include "../include/mcnet/read.h"
 
+int8_t mcnet_read_bool(uint8_t* in) {
+  return (*((int8_t*)(in)) == 0) ? 0 : 1;
+}
+
 int8_t mcnet_read_int8(uint8_t* in) {
   return *((int8_t*)(in));
+}
+
+uint8_t mcnet_read_uint8(uint8_t* in) {
+  return *((uint8_t*)(in));
 }
 
 int16_t mcnet_read_int16(uint8_t* in) {

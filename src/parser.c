@@ -21,16 +21,16 @@
   return nparsed; \
 }
 
-#define BOOL(name)         if (data_len < nparsed + 1)             { return MCNET_EAGAIN; } packet.name = *((int8_t*)(data + nparsed)) ? 1 : 0; nparsed += 1;
-#define BYTE(name)         if (data_len < nparsed + 1)             { return MCNET_EAGAIN; } packet.name = *((int8_t*)(data + nparsed));         nparsed += 1;
-#define UBYTE(name)        if (data_len < nparsed + 1)             { return MCNET_EAGAIN; } packet.name = *((uint8_t*)(data + nparsed));        nparsed += 1;
-#define SHORT(name)        if (data_len < nparsed + 2)             { return MCNET_EAGAIN; } packet.name = mcnet_read_int16(data + nparsed);     nparsed += 2;
-#define USHORT(name)       if (data_len < nparsed + 2)             { return MCNET_EAGAIN; } packet.name = mcnet_read_uint16(data + nparsed);    nparsed += 2;
-#define INT(name)          if (data_len < nparsed + 4)             { return MCNET_EAGAIN; } packet.name = mcnet_read_int32(data + nparsed);     nparsed += 4;
-#define LONG(name)         if (data_len < nparsed + 8)             { return MCNET_EAGAIN; } packet.name = mcnet_read_int64(data + nparsed);     nparsed += 8;
-#define FLOAT(name)        if (data_len < nparsed + 4)             { return MCNET_EAGAIN; } packet.name = mcnet_read_float(data + nparsed);     nparsed += 4;
-#define DOUBLE(name)       if (data_len < nparsed + 8)             { return MCNET_EAGAIN; } packet.name = mcnet_read_double(data + nparsed);    nparsed += 8;
-#define BLOB(name, length) if (data_len < nparsed + packet.length) { return MCNET_EAGAIN; } packet.name = data + nparsed;                       nparsed += packet.length;
+#define BOOL(name)         if (data_len < nparsed + 1)             { return MCNET_EAGAIN; } packet.name = mcnet_read_bool(data + nparsed);   nparsed += 1;
+#define BYTE(name)         if (data_len < nparsed + 1)             { return MCNET_EAGAIN; } packet.name = mcnet_read_int8(data + nparsed);   nparsed += 1;
+#define UBYTE(name)        if (data_len < nparsed + 1)             { return MCNET_EAGAIN; } packet.name = mcnet_read_uint8(data + nparsed);  nparsed += 1;
+#define SHORT(name)        if (data_len < nparsed + 2)             { return MCNET_EAGAIN; } packet.name = mcnet_read_int16(data + nparsed);  nparsed += 2;
+#define USHORT(name)       if (data_len < nparsed + 2)             { return MCNET_EAGAIN; } packet.name = mcnet_read_uint16(data + nparsed); nparsed += 2;
+#define INT(name)          if (data_len < nparsed + 4)             { return MCNET_EAGAIN; } packet.name = mcnet_read_int32(data + nparsed);  nparsed += 4;
+#define LONG(name)         if (data_len < nparsed + 8)             { return MCNET_EAGAIN; } packet.name = mcnet_read_int64(data + nparsed);  nparsed += 8;
+#define FLOAT(name)        if (data_len < nparsed + 4)             { return MCNET_EAGAIN; } packet.name = mcnet_read_float(data + nparsed);  nparsed += 4;
+#define DOUBLE(name)       if (data_len < nparsed + 8)             { return MCNET_EAGAIN; } packet.name = mcnet_read_double(data + nparsed); nparsed += 8;
+#define BLOB(name, length) if (data_len < nparsed + packet.length) { return MCNET_EAGAIN; } packet.name = data + nparsed;                    nparsed += packet.length;
 #define STRING8(name) SHORT(name##_len) BLOB(name, name##_len)
 #define STRING16(name) SHORT(name##_len) BLOB(name, name##_len * 2)
 #define METADATA(name) \
