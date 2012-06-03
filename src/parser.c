@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <stdlib.h>
 #include <stddef.h>
 
@@ -83,14 +82,10 @@ size_t mcnet_parser_execute(mcnet_parser_t* parser, mcnet_parser_settings_t* set
     return MCNET_EAGAIN;
   }
 
-  printf("trying to parse packet 0x%02x\n", data[0]);
-
   switch (data[0]) {
     PACKETS
 
     default: {
-      printf("Unknown packet: %02x\n", data[0]);
-
       if (settings->on_error != NULL) {
         settings->on_error(parser, -1);
       }
