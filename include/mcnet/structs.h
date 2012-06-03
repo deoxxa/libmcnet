@@ -10,6 +10,7 @@
 #define BYTE(name) int8_t name;
 #define UBYTE(name) uint8_t name;
 #define SHORT(name) int16_t name;
+#define USHORT(name) uint16_t name;
 #define INT(name) int32_t name;
 #define LONG(name) int64_t name;
 #define FLOAT(name) float name;
@@ -17,7 +18,7 @@
 #define STRING8(name) int16_t name##_len; uint8_t* name;
 #define STRING16(name) STRING8(name)
 #define BLOB(name, length) uint8_t* name;
-#define METADATA(name) int16_t name##_len; mcnet_metadata_t* name;
+#define METADATA(name) int16_t name##_len; uint8_t* name##_data;
 #define CODE(code)
 
 #define PACKET(id, code) typedef struct mcnet_packet_##id##_s { \
@@ -37,6 +38,7 @@ PACKETS
 #undef BYTE
 #undef UBYTE
 #undef SHORT
+#undef USHORT
 #undef INT
 #undef LONG
 #undef FLOAT

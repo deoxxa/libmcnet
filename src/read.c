@@ -17,6 +17,17 @@ int16_t mcnet_read_int16(uint8_t* in) {
   return out;
 }
 
+uint16_t mcnet_read_uint16(uint8_t* in) {
+  uint16_t out;
+
+  uint8_t* t = (uint8_t*)&out;
+
+  t[0] = in[1];
+  t[1] = in[0];
+
+  return out;
+}
+
 int32_t mcnet_read_int32(uint8_t* in) {
   int32_t out;
 
