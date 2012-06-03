@@ -6,8 +6,12 @@
 
 #include "packets.h"
 
+#define MCNET_PARSER_TYPE_CLIENT 1
+#define MCNET_PARSER_TYPE_SERVER 2
+
 typedef struct mcnet_parser_s {
   void* data;
+  char type;
 } mcnet_parser_t;
 
 typedef void (*packet_cb)(mcnet_parser_t* parser, mcnet_packet_t* packet);
