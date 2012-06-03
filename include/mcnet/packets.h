@@ -47,7 +47,7 @@ PACKET(32, INT(x) INT(z) BOOL(mode)) \
 PACKET(33, INT(x) INT(z) BOOL(solid) USHORT(primary_bitmap) USHORT(add_bitmap) INT(data_len) INT(unused) BLOB(data, data_len)) \
 PACKET(34, INT(x) INT(z) SHORT(count) INT(data_len) BLOB(data, data_len)) \
 PACKET(35, INT(x) BYTE(y) INT(z) BYTE(type) BYTE(meta)) \
-PACKET(36, INT(x) BYTE(y) INT(z) BYTE(one) BYTE(two)) \
+PACKET(36, INT(x) SHORT(y) INT(z) BYTE(one) BYTE(two)) \
 PACKET(3C, DOUBLE(x) DOUBLE(y) DOUBLE(z) FLOAT(radius) INT(count) BLOB(data, count * 3)) \
 PACKET(3D, INT(effect_id) INT(x) BYTE(y) INT(z) INT(data)) \
 PACKET(46, BYTE(reason) BYTE(mode)) \
