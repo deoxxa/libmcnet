@@ -112,8 +112,9 @@ int main() {
       break;
     }
 
-    printf("parsed %d bytes\n", nparsed);
     offset += nparsed;
+
+    printf("parsed %d bytes and %d total\n", nparsed, offset);
   }
 
   return 0;
