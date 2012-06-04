@@ -14,6 +14,14 @@ typedef struct mcnet_metadata_s {
   struct mcnet_metadata_entry_s* entries;
 } mcnet_metadata_t;
 
+#define MCNET_METADATA_TYPE_BYTE 0
+#define MCNET_METADATA_TYPE_SHORT 1
+#define MCNET_METADATA_TYPE_INT 2
+#define MCNET_METADATA_TYPE_FLOAT 3
+#define MCNET_METADATA_TYPE_STRING16 4
+#define MCNET_METADATA_TYPE_SLOT 5
+#define MCNET_METADATA_TYPE_INTS 6
+
 #define MCNET_METADATA_ENTRY_FIELDS uint8_t type; uint8_t index;
 
 typedef struct mcnet_metadata_entry_s {
