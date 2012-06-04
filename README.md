@@ -28,6 +28,14 @@ Documentation
 
 To do! Oh no! For now, please look at the example.
 
+Bindings
+--------
+
+Please let me know if you write a binding for this library and I'll add it to
+this list!
+
+* [node-mcnet](https://github.com/deoxxa/node-mcnet)
+
 Example
 -------
 
