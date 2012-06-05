@@ -34,13 +34,13 @@
 #define STRING8(name) SHORT(name##_len) BLOB(name, name##_len)
 #define STRING16(name) SHORT(name##_len) BLOB(name, name##_len * 2)
 #define METADATA(name) \
-  size_t name = mcnet_metadata_parser_parse(NULL, data + nparsed, data_len); \
+  size_t name = mcnet_metadata_parser_parse(NULL, data + nparsed, data_len - nparsed); \
   if ((name == MCNET_EAGAIN) || (name == MCNET_EINVALID)) { return name; } \
   packet.name##_len = name; \
   packet.name = data + nparsed; \
   nparsed += name;
 #define SLOT(name) \
-  size_t name = mcnet_slot_parser_parse(NULL, data + nparsed, data_len); \
+  size_t name = mcnet_slot_parser_parse(NULL, data + nparsed, data_len - nparsed); \
   if ((name == MCNET_EAGAIN) || (name == MCNET_EINVALID)) { return name; } \
   packet.name##_len = name; \
   packet.name = data + nparsed; \
@@ -49,7 +49,7 @@
   size_t name = 0; \
   int i = 0; \
   for (i = 0; i < packet.len; ++i) { \
-    size_t tmp = mcnet_slot_parser_parse(NULL, data + nparsed, data_len); \
+    size_t tmp = mcnet_slot_parser_parse(NULL, data + nparsed + name, data_len - nparsed - name); \
     if ((name == MCNET_EAGAIN) || (name == MCNET_EINVALID)) { return name; } \
     name += tmp; \
   } \
