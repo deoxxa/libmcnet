@@ -9,6 +9,12 @@ size_t mcnet_slot_parser_parse(mcnet_slot_parser_t* parser, uint8_t* data, size_
   mcnet_slot_t slot;
   size_t nparsed = 0;
 
+  slot.item = 0;
+  slot.count = 0;
+  slot.meta = 0;
+  slot.data_len = 0;
+  slot.data = NULL;
+
   if (len < nparsed + 2) {
     return MCNET_EAGAIN;
   }
@@ -44,12 +50,14 @@ size_t mcnet_slot_parser_parse(mcnet_slot_parser_t* parser, uint8_t* data, size_
   slot.data_len = mcnet_read_int16(data + nparsed);
   nparsed += 2;
 
-  if (len < nparsed + slot.data_len) {
-    return MCNET_EAGAIN;
-  }
+  if (slot.data_len != -1) {
+    if (len < nparsed + slot.data_len) {
+      return MCNET_EAGAIN;
+    }
 
-  slot.data = data + nparsed;
-  nparsed += slot.data_len;
+    slot.data = data + nparsed;
+    nparsed += slot.data_len;
+  }
 
   if (parser && parser->on_complete) { parser->on_complete(parser, &slot); }
 
