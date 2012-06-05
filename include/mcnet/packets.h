@@ -1,23 +1,27 @@
 #ifndef MCNET_PACKETS_H
 #define MCNET_PACKETS_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define PACKETS \
 PACKET(00, INT(id)) \
-PACKET(01, INT(eid) STRING16(username) STRING16(level_type) INT(server_mode) INT(dimension) BYTE(difficulty) UBYTE(world_height) BYTE(max_players)) \
-PACKET(02, STRING16(data)) \
+PACKET(01, CODE(if ((parser != NULL) && (parser->type == MCNET_PARSER_TYPE_CLIENT)) { goto done; }) INT(eid) STRING16(level_type) BYTE(server_mode) BYTE(dimension) BYTE(difficulty) UBYTE(world_height) BYTE(max_players) CODE(done:)) \
+PACKET(02, BYTE(protocol_version) STRING16(username) STRING16(host) INT(port)) \
 PACKET(03, STRING16(data)) \
 PACKET(04, LONG(time)) \
 PACKET(05, INT(eid) SHORT(slot) SHORT(itemid) SHORT(damage)) \
 PACKET(06, INT(x) INT(y) INT(z)) \
 PACKET(07, INT(user) INT(target) BYTE(mouse)) \
 PACKET(08, SHORT(health) SHORT(hunger) FLOAT(saturation)) \
-PACKET(09, INT(dimension) BYTE(difficulty) BYTE(server_mode) SHORT(world_height) STRING16(level_type)) \
+PACKET(09, CODE(if ((parser != NULL) && (parser->type == MCNET_PARSER_TYPE_CLIENT)) { goto done; }) INT(dimension) BYTE(difficulty) BYTE(server_mode) SHORT(world_height) STRING16(level_type) CODE(done:)) \
 PACKET(0A, BYTE(on_ground)) \
 PACKET(0B, DOUBLE(x) DOUBLE(y) DOUBLE(stance) DOUBLE(z) BYTE(on_ground)) \
 PACKET(0C, FLOAT(yaw) FLOAT(pitch) BOOL(on_ground)) \
 PACKET(0D, DOUBLE(x) DOUBLE(y) DOUBLE(stance) DOUBLE(z) FLOAT(yaw) FLOAT(pitch) BOOL(on_ground)) \
 PACKET(0E, BYTE(status) SHORT(x) BYTE(y) SHORT(z) BYTE(face)) \
-PACKET(0F, BYTE(status) SHORT(x) BYTE(y) SHORT(z) BYTE(direction)) \
+PACKET(0F, BYTE(status) SHORT(x) BYTE(y) SHORT(z) BYTE(direction) INT(px) INT(py) INT(pz)) \
 PACKET(10, SHORT(slot_id)) \
 PACKET(11, INT(eid) BYTE(unused) INT(x) SHORT(y) INT(z)) \
 PACKET(12, INT(eid) BYTE(animation)) \
@@ -50,6 +54,7 @@ PACKET(35, INT(x) BYTE(y) INT(z) BYTE(type) BYTE(meta)) \
 PACKET(36, INT(x) SHORT(y) INT(z) BYTE(one) BYTE(two)) \
 PACKET(3C, DOUBLE(x) DOUBLE(y) DOUBLE(z) FLOAT(radius) INT(count) BLOB(data, count * 3)) \
 PACKET(3D, INT(effect_id) INT(x) BYTE(y) INT(z) INT(data)) \
+PACKET(3E, STRING16(name) INT(x) INT(y) INT(z) BYTE(volume) BYTE(pitch)) \
 PACKET(46, BYTE(reason) BYTE(mode)) \
 PACKET(47, INT(eid) BOOL(unknown) INT(x) INT(y) INT(z)) \
 PACKET(64, BYTE(window) BYTE(type) STRING16(title) BYTE(slots)) \
@@ -66,9 +71,17 @@ PACKET(83, SHORT(type) SHORT(id) UBYTE(data_len) BLOB(data, data_len)) \
 PACKET(84, INT(x) SHORT(y) INT(z) BYTE(action) INT(custom1) INT(custom2) INT(custom3)) \
 PACKET(C8, INT(statistic) BYTE(amount)) \
 PACKET(C9, STRING16(name) BOOL(online) SHORT(ping)) \
-PACKET(CA, BOOL(invincible) BOOL(flying) BOOL(can_fly) BOOL(instant_destroy)) \
+PACKET(CA, BOOL(invincible) BOOL(can_fly) BOOL(instant_destroy)) \
+PACKET(CB, STRING16(text)) \
+PACKET(CC, STRING16(locale) BYTE(view_distance) BYTE(chat_flags) BYTE(unknown)) \
 PACKET(FA, STRING16(channel) SHORT(data_length) BLOB(data, data_length)) \
+PACKET(FC, SHORT(shared_secret_len) BLOB(shared_secret, shared_secret_len)) \
+PACKET(FD, STRING16(server_id) SHORT(public_key_len) BLOB(public_key, public_key_len)) \
 PACKET(FE, ) \
 PACKET(FF, STRING16(reason))
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

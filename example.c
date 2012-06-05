@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <stdlib.h>
+#include <stddef.h>
 
 #include <mcnet.h>
 
@@ -56,7 +56,7 @@ void on_error(mcnet_parser_t* parser, int err) {
 }
 
 int main() {
-  mcnet_parser_t parser = { .data = NULL };
+  mcnet_parser_t parser = { .data = NULL, .type = MCNET_PARSER_TYPE_SERVER };
   mcnet_parser_settings_t settings = { .on_packet = on_packet, .on_error = on_error };
 
   uint8_t data[] = {
@@ -69,9 +69,8 @@ int main() {
     0x01,
     0x00, 0x00, 0x00, 0x01,
     0x00, 0x04, 0x00, 0x61, 0x00, 0x73, 0x00, 0x64, 0x00, 0x66,
-    0x00, 0x01, 0x00, 0x65,
-    0x00, 0x00, 0x00, 0x02,
-    0x00, 0x00, 0x00, 0x03,
+    0x02,
+    0x03,
     0x04,
     0x05,
     0x06,

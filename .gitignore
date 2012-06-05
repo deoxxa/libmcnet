@@ -1,2 +1,4 @@
 /obj/*
-/bin/*
+/example
+/libmcnet.so
+/libmcnet.a

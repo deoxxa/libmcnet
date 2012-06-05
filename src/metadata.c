@@ -45,7 +45,7 @@ size_t mcnet_metadata_parser_execute(mcnet_metadata_parser_t* parser, uint8_t* d
           type  = x >> 5;
 
   switch (type) {
-    case 0: {
+    case MCNET_METADATA_TYPE_BYTE: {
       mcnet_metadata_entry_byte_t entry;
 
       entry.type = type;
@@ -59,7 +59,7 @@ size_t mcnet_metadata_parser_execute(mcnet_metadata_parser_t* parser, uint8_t* d
 
       return nparsed;
     }
-    case 1: {
+    case MCNET_METADATA_TYPE_SHORT: {
       mcnet_metadata_entry_short_t entry;
 
       entry.type = type;
@@ -73,7 +73,7 @@ size_t mcnet_metadata_parser_execute(mcnet_metadata_parser_t* parser, uint8_t* d
 
       return nparsed;
     }
-    case 2: {
+    case MCNET_METADATA_TYPE_INT: {
       mcnet_metadata_entry_int_t entry;
 
       entry.type = type;
@@ -87,7 +87,7 @@ size_t mcnet_metadata_parser_execute(mcnet_metadata_parser_t* parser, uint8_t* d
 
       return nparsed;
     }
-    case 3: {
+    case MCNET_METADATA_TYPE_FLOAT: {
       mcnet_metadata_entry_float_t entry;
 
       entry.type = type;
@@ -101,7 +101,7 @@ size_t mcnet_metadata_parser_execute(mcnet_metadata_parser_t* parser, uint8_t* d
 
       return nparsed;
     }
-    case 4: {
+    case MCNET_METADATA_TYPE_STRING16: {
       mcnet_metadata_entry_string16_t entry;
 
       entry.type = type;
@@ -112,14 +112,14 @@ size_t mcnet_metadata_parser_execute(mcnet_metadata_parser_t* parser, uint8_t* d
       nparsed += 2;
 
       if (len < nparsed + entry.data_length * 2) { return MCNET_EAGAIN; }
-      entry.data = data;
+      entry.data = data + nparsed;
       nparsed += entry.data_length * 2;
 
       if (parser && parser->on_entry) { parser->on_entry(parser, (mcnet_metadata_entry_t*)&entry); }
 
       return nparsed;
     }
-    case 5: {
+    case MCNET_METADATA_TYPE_SLOT: {
       mcnet_metadata_entry_sbs_t entry;
 
       entry.type = type;
@@ -138,7 +138,7 @@ size_t mcnet_metadata_parser_execute(mcnet_metadata_parser_t* parser, uint8_t* d
 
       return nparsed;
     }
-    case 6: {
+    case MCNET_METADATA_TYPE_INTS: {
       mcnet_metadata_entry_iii_t entry;
 
       entry.type = type;

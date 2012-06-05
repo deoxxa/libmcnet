@@ -28,6 +28,14 @@ Documentation
 
 To do! Oh no! For now, please look at the example.
 
+Bindings
+--------
+
+Please let me know if you write a binding for this library and I'll add it to
+this list!
+
+* [node-mcnet](https://github.com/deoxxa/node-mcnet)
+
 Example
 -------
 
@@ -35,7 +43,7 @@ Also see [example.c](example.c) for something more comprehensive.
 
 ```c
 #include <stdio.h>
-#include <stdlib.h>
+#include <stddef.h>
 
 #include <mcnet.h>
 
