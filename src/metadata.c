@@ -112,7 +112,7 @@ size_t mcnet_metadata_parser_execute(mcnet_metadata_parser_t* parser, uint8_t* d
       nparsed += 2;
 
       if (len < nparsed + entry.data_length * 2) { return MCNET_EAGAIN; }
-      entry.data = data;
+      entry.data = data + nparsed;
       nparsed += entry.data_length * 2;
 
       if (parser && parser->on_entry) { parser->on_entry(parser, (mcnet_metadata_entry_t*)&entry); }
