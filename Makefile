@@ -30,4 +30,4 @@ example: obj/example.o libmcnet.so
 	$(CC) $(CFLAGS) $(LDFLAGS) -o example obj/example.o libmcnet.a
 
 clean:
-	rm -rf obj example libmcnet.so
+	rm -rf obj example libmcnet.so libmcnet.a
