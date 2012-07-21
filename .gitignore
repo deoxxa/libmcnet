@@ -1,8 +1,7 @@
-/obj/*
 /example
-/libmcnet.so
 /libmcnet.a
 /CMakeCache.txt
 /CMakeFiles
 /cmake_install.cmake
 /Makefile
+/build
