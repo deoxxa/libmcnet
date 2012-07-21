@@ -36,6 +36,17 @@ this list!
 
 * [node-mcnet](https://github.com/deoxxa/node-mcnet)
 
+Building
+--------
+
+```
+$ git clone git://github.com/deoxxa/libmcnet.git
+$ mkdir libmcnet-build
+$ cd libmcnet-build
+$ cmake ../libmcnet
+$ make
+```
+
 Example
 -------
 
