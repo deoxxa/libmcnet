@@ -2,6 +2,10 @@
 
 #include "../include/mcnet/read.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 int8_t mcnet_read_bool(uint8_t* in) {
   return (*((int8_t*)(in)) == 0) ? 0 : 1;
 }
@@ -95,3 +99,7 @@ double mcnet_read_double(uint8_t* in) {
 
   return out;
 }
+
+#ifdef __cplusplus
+}
+#endif

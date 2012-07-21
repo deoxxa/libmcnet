@@ -9,6 +9,10 @@
 #include "../include/mcnet/read.h"
 #include "../include/mcnet/parser.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #define PACKET(id, code) int mcnet_parser_parse_##id(mcnet_parser_t* parser, mcnet_parser_settings_t* settings, uint8_t* data, size_t data_len) { \
   mcnet_packet_##id##_t packet; \
   size_t nparsed = 0; \
@@ -103,3 +107,7 @@ size_t mcnet_parser_execute(mcnet_parser_t* parser, mcnet_parser_settings_t* set
 }
 
 #undef PACKET
+
+#ifdef __cplusplus
+}
+#endif

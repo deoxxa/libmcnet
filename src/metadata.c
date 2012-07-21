@@ -5,6 +5,10 @@
 #include "../include/mcnet/read.h"
 #include "../include/mcnet/metadata.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 size_t mcnet_metadata_parser_parse(mcnet_metadata_parser_t* parser, uint8_t* data, size_t len) {
   size_t nparsed = 0, this_round = 0;
 
@@ -164,3 +168,7 @@ size_t mcnet_metadata_parser_execute(mcnet_metadata_parser_t* parser, uint8_t* d
     }
   }
 }
+
+#ifdef __cplusplus
+}
+#endif
