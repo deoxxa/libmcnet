@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <stddef.h>
+#include <string.h>
 
 #include "../include/mcnet/error.h"
 #include "../include/mcnet/packets.h"
@@ -15,6 +16,7 @@ extern "C" {
 
 #define PACKET(id, code) int mcnet_parser_parse_##id(mcnet_parser_t* parser, mcnet_parser_settings_t* settings, uint8_t* data, size_t data_len) { \
   mcnet_packet_##id##_t packet; \
+  memset(&packet, 0, sizeof(mcnet_packet_##id##_t)); \
   size_t nparsed = 0; \
   UBYTE(pid) \
   code \
