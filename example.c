@@ -11,7 +11,10 @@
   break; \
 };
 
-#define CODE(data)
+#define ONLY_SERVER(code) if (1) { code }
+#define ONLY_CLIENT(code) if (1) { code }
+#define PARSER_CODE(code)
+#define GENERATOR_CODE(code)
 #define BOOL(name)          printf("  [bool]     %c\n",   tmp->name ? 'T' : 'F');
 #define BYTE(name)          printf("  [byte]     %d\n",   tmp->name);
 #define UBYTE(name)         printf("  [ubyte]    %u\n",   tmp->name);
@@ -40,7 +43,10 @@ void on_packet(mcnet_parser_t* parser, mcnet_packet_t* packet) {
   }
 }
 
-#undef CODE
+#undef ONLY_SERVER
+#undef ONLY_CLIENT
+#undef PARSER_CODE
+#undef GENERATOR_CODE
 #undef BOOL
 #undef BYTE
 #undef UBYTE

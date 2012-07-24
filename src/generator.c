@@ -18,7 +18,10 @@ extern "C" {
   break; \
 };
 
-#define CODE(code)
+#define ONLY_SERVER(code) if (1) { code }
+#define ONLY_CLIENT(code) if (1) { code }
+#define PARSER_CODE(code)
+#define GENERATOR_CODE(code) code
 #define BOOL(name) res += 1;
 #define BYTE(name) res += 1;
 #define UBYTE(name) res += 1;
@@ -47,6 +50,10 @@ PACKETS
   return res;
 }
 
+#undef ONLY_SERVER
+#undef ONLY_CLIENT
+#undef PARSER_CODE
+#undef GENERATOR_CODE
 #undef BOOL
 #undef BYTE
 #undef UBYTE

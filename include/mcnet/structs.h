@@ -9,6 +9,8 @@ extern "C" {
 
 #include "packets.h"
 
+#define ONLY_SERVER(code) code
+#define ONLY_CLIENT(code) code
 #define BOOL(name) int8_t name;
 #define BYTE(name) int8_t name;
 #define UBYTE(name) uint8_t name;
@@ -24,7 +26,8 @@ extern "C" {
 #define METADATA(name) SHORT(name##_len) BLOB(name, )
 #define SLOT(name) SHORT(name##_len) BLOB(name, )
 #define SLOTS(name, count) SHORT(name##_len) BLOB(name, )
-#define CODE(code)
+#define PARSER_CODE(code)
+#define GENERATOR_CODE(code)
 
 #define PACKET(id, code) typedef struct mcnet_packet_##id##_s { \
   UBYTE(pid) \
@@ -39,6 +42,8 @@ PACKETS
 
 #undef PACKET
 
+#undef ONLY_SERVER
+#undef ONLY_CLIENT
 #undef BOOL
 #undef BYTE
 #undef UBYTE
@@ -54,7 +59,8 @@ PACKETS
 #undef METADATA
 #undef SLOT
 #undef SLOTS
-#undef CODE
+#undef PARSER_CODE
+#undef GENERATOR_CODE
 
 #ifdef __cplusplus
 }

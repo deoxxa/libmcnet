@@ -7,7 +7,7 @@ extern "C" {
 
 #define PACKETS \
 PACKET(00, INT(id)) \
-PACKET(01, CODE(if ((parser != NULL) && (parser->type == MCNET_PARSER_TYPE_CLIENT)) { goto done; }) INT(eid) STRING16(level_type) BYTE(server_mode) BYTE(dimension) BYTE(difficulty) UBYTE(world_height) UBYTE(max_players) CODE(done:)) \
+PACKET(01, ONLY_SERVER(INT(eid)) ONLY_SERVER(STRING16(level_type)) ONLY_SERVER(BYTE(server_mode)) ONLY_SERVER(BYTE(dimension)) ONLY_SERVER(BYTE(difficulty)) ONLY_SERVER(UBYTE(world_height)) ONLY_SERVER(UBYTE(max_players))) \
 PACKET(02, BYTE(protocol_version) STRING16(username) STRING16(host) INT(port)) \
 PACKET(03, STRING16(data)) \
 PACKET(04, LONG(time)) \
@@ -15,7 +15,7 @@ PACKET(05, INT(eid) SHORT(slot) SLOT(item)) \
 PACKET(06, INT(x) INT(y) INT(z)) \
 PACKET(07, INT(user) INT(target) BYTE(mouse)) \
 PACKET(08, SHORT(health) SHORT(hunger) FLOAT(saturation)) \
-PACKET(09, CODE(if ((parser != NULL) && (parser->type == MCNET_PARSER_TYPE_CLIENT)) { goto done; }) INT(dimension) BYTE(difficulty) BYTE(server_mode) SHORT(world_height) STRING16(level_type) CODE(done:)) \
+PACKET(09, ONLY_SERVER(INT(dimension)) ONLY_SERVER(BYTE(difficulty)) ONLY_SERVER(BYTE(server_mode)) ONLY_SERVER(SHORT(world_height)) ONLY_SERVER(STRING16(level_type))) \
 PACKET(0A, BYTE(on_ground)) \
 PACKET(0B, DOUBLE(x) DOUBLE(y) DOUBLE(stance) DOUBLE(z) BYTE(on_ground)) \
 PACKET(0C, FLOAT(yaw) FLOAT(pitch) BOOL(on_ground)) \
@@ -29,7 +29,7 @@ PACKET(13, INT(eid) BYTE(action)) \
 PACKET(14, INT(eid) STRING16(name) INT(x) INT(y) INT(z) BYTE(yaw) BYTE(pitch) SHORT(current_item)) \
 PACKET(15, INT(eid) SHORT(item_id) BYTE(count) SHORT(damage) INT(x) INT(y) INT(z) BYTE(rotation) BYTE(pitch) BYTE(roll)) \
 PACKET(16, INT(eid) INT(collected_by)) \
-PACKET(17, INT(eid) BYTE(type) INT(x) INT(y) INT(z) INT(thrower) CODE(if (packet.thrower == 0) { packet.speed_x = 0; packet.speed_y = 0; packet.speed_z = 0; goto done; }) SHORT(speed_x) SHORT(speed_y) SHORT(speed_z) CODE(done:)) \
+PACKET(17, INT(eid) BYTE(type) INT(x) INT(y) INT(z) INT(thrower) PARSER_CODE(if (packet.thrower == 0) { packet.speed_x = 0; packet.speed_y = 0; packet.speed_z = 0; goto done; }) GENERATOR_CODE(if (_packet->thrower == 0) { goto done; }) SHORT(speed_x) SHORT(speed_y) SHORT(speed_z) PARSER_CODE(done:) GENERATOR_CODE(done:)) \
 PACKET(18, INT(eid) BYTE(type) INT(x) INT(y) INT(z) BYTE(yaw) BYTE(pitch) BYTE(head_yaw) SHORT(velocity_z) SHORT(velocity_x) SHORT(velocity_y) METADATA(metadata)) \
 PACKET(19, INT(eid) STRING16(title) INT(x) INT(y) INT(z) INT(direction)) \
 PACKET(1A, INT(eid) INT(x) INT(y) INT(z) SHORT(count)) \

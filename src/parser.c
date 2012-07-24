@@ -14,19 +14,8 @@
 extern "C" {
 #endif
 
-#define PACKET(id, code) int mcnet_parser_parse_##id(mcnet_parser_t* parser, mcnet_parser_settings_t* settings, uint8_t* data, size_t data_len) { \
-  mcnet_packet_##id##_t packet; \
-  memset(&packet, 0, sizeof(mcnet_packet_##id##_t)); \
-  size_t nparsed = 0; \
-  UBYTE(pid) \
-  code \
-  if (settings->on_packet != NULL) { \
-    settings->on_packet(parser, (mcnet_packet_t*)&packet); \
-  } \
-  return nparsed; \
-}
-
-#define CODE(data) data
+#define PARSER_CODE(code) code
+#define GENERATOR_CODE(code)
 #define BOOL(name)         if (data_len < nparsed + 1)             { return MCNET_EAGAIN; } packet.name = mcnet_read_bool(data + nparsed);   nparsed += 1;
 #define BYTE(name)         if (data_len < nparsed + 1)             { return MCNET_EAGAIN; } packet.name = mcnet_read_int8(data + nparsed);   nparsed += 1;
 #define UBYTE(name)        if (data_len < nparsed + 1)             { return MCNET_EAGAIN; } packet.name = mcnet_read_uint8(data + nparsed);  nparsed += 1;
@@ -63,8 +52,40 @@ extern "C" {
   packet.name = data + nparsed; \
   nparsed += name;
 
+#define PACKET_BODY(id, code) { \
+  mcnet_packet_##id##_t packet; \
+  memset(&packet, 0, sizeof(mcnet_packet_##id##_t)); \
+  size_t nparsed = 0; \
+  UBYTE(pid) \
+  code \
+  if (settings->on_packet != NULL) { \
+    settings->on_packet(parser, (mcnet_packet_t*)&packet); \
+  } \
+  return nparsed; \
+}
+
+#define PACKET(id, code) int mcnet_parser_parse_server_##id(mcnet_parser_t* parser, mcnet_parser_settings_t* settings, uint8_t* data, size_t data_len) PACKET_BODY(id, code)
+#define ONLY_SERVER(code) code
+#define ONLY_CLIENT(code)
+
 PACKETS
 
+#undef PACKET
+#undef ONLY_SERVER
+#undef ONLY_CLIENT
+
+#define PACKET(id, code) int mcnet_parser_parse_client_##id(mcnet_parser_t* parser, mcnet_parser_settings_t* settings, uint8_t* data, size_t data_len) PACKET_BODY(id, code)
+#define ONLY_SERVER(code)
+#define ONLY_CLIENT(code) code
+
+PACKETS
+
+#undef PACKET
+#undef ONLY_SERVER
+#undef ONLY_CLIENT
+
+#undef PARSER_CODE
+#undef GENERATOR_CODE
 #undef BOOL
 #undef BYTE
 #undef UBYTE
@@ -80,9 +101,13 @@ PACKETS
 #undef SLOT
 #undef SLOTS
 
-#undef PACKET
-
-#define PACKET(id, code) case 0x##id: { return mcnet_parser_parse_##id(parser, settings, data, data_len); }
+#define PACKET(id, code) case 0x##id: { \
+  if (parser->type == MCNET_PARSER_TYPE_CLIENT) { \
+    return mcnet_parser_parse_client_##id(parser, settings, data, data_len); \
+  } else if (parser->type == MCNET_PARSER_TYPE_SERVER) { \
+    return mcnet_parser_parse_server_##id(parser, settings, data, data_len); \
+  } \
+}
 
 size_t mcnet_parser_execute(mcnet_parser_t* parser, mcnet_parser_settings_t* settings, uint8_t* data, size_t data_len) {
   if (data_len < 1) {
