@@ -6,10 +6,19 @@ extern "C" {
 #endif
 
 #include <stdint.h>
+#include <stddef.h>
 
 #include "packets.h"
 
-size_t mcnet_generator_size(mcnet_packet_t* packet);
+#define MCNET_GENERATOR_TYPE_CLIENT 1
+#define MCNET_GENERATOR_TYPE_SERVER 2
+
+typedef struct mcnet_generator_s {
+  char type;
+} mcnet_generator_t;
+
+size_t mcnet_generator_size(mcnet_generator_t* generator, mcnet_packet_t* packet);
+void mcnet_generator_write(mcnet_generator_t* generator, mcnet_packet_t* packet, uint8_t* out);
 
 #ifdef __cplusplus
 }

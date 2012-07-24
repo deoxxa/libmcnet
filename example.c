@@ -7,7 +7,7 @@
   mcnet_packet_##id##_t* tmp = (mcnet_packet_##id##_t*)packet; \
   printf("Packet ID: 0x%02x\n", tmp->pid); \
   code \
-  printf("Packet size: %lu\n", mcnet_generator_size(packet)); \
+  printf("Packet size: %lu\n", mcnet_generator_size(parser->data, packet)); \
   break; \
 };
 
@@ -68,7 +68,8 @@ void on_error(mcnet_parser_t* parser, int err) {
 }
 
 int main() {
-  mcnet_parser_t parser = { .data = NULL, .type = MCNET_PARSER_TYPE_SERVER };
+  mcnet_generator_t generator = { .type = MCNET_GENERATOR_TYPE_SERVER };
+  mcnet_parser_t parser = { .data = &generator, .type = MCNET_PARSER_TYPE_SERVER };
   mcnet_parser_settings_t settings = { .on_packet = on_packet, .on_error = on_error };
 
   uint8_t data[] = {
