@@ -30,6 +30,10 @@ int32_t mcnet_read_int32(uint8_t* in) {
   return (in[0] << 24) + (in[1] << 16) + (in[2] << 8) + in[3];
 }
 
+uint32_t mcnet_read_uint32(uint8_t* in) {
+  return (in[0] << 24) + (in[1] << 16) + (in[2] << 8) + in[3];
+}
+
 uint64_t mcnet_read_uint64(uint8_t* in) {
   return (((uint64_t)(in[0])) << 56) + (((uint64_t)(in[1])) << 48) + (((uint64_t)(in[2])) << 40) + (((uint64_t)(in[3])) << 32) + (((uint64_t)(in[4])) << 24) + (((uint64_t)(in[5])) << 16) + (((uint64_t)(in[6])) << 8) + ((uint64_t)(in[7]));
 }
