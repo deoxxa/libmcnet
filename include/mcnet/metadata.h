@@ -84,6 +84,9 @@ typedef struct mcnet_metadata_parser_s {
 size_t mcnet_metadata_parser_parse(mcnet_metadata_parser_t* parser, uint8_t* data, size_t len);
 size_t mcnet_metadata_parser_execute(mcnet_metadata_parser_t* parser, uint8_t* data, size_t len);
 
+size_t mcnet_metadata_generator_size(mcnet_metadata_t* metadata);
+void mcnet_metadata_generator_write(mcnet_metadata_t* metadata, uint8_t* data);
+
 #ifdef __cplusplus
 }
 #endif
