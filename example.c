@@ -15,9 +15,9 @@
 #define LONG(name)          printf("  [long]     %lld\n", tmp->name);
 #define FLOAT(name)         printf("  [float]    %f\n",   tmp->name);
 #define DOUBLE(name)        printf("  [double]   %g\n",   tmp->name);
-#define STRING16(name)      printf("  [string16] %d -> ", tmp->name##_len); for (int i = 0; i < tmp->name##_len; ++i) { printf("%c", tmp->name[i*2+1]); } printf("\n");
-#define STRING8(name)       printf("  [string8]  %d -> ", tmp->name##_len); for (int i = 0; i < tmp->name##_len; ++i) { printf("%c", tmp->name[i]); } printf("\n");
-#define BLOB(name, length)  printf("  [blob]     %d -> ", tmp->length); for (int i = 0; i < tmp->length; ++i) { printf("%02x", tmp->name[i]); if (i != tmp->length) { printf(":"); } } printf("\n");
+#define STRING16(name)      printf("  [string16] %d -> ", tmp->name##_len); int name##_i; for (name##_i = 0; name##_i < tmp->name##_len; ++name##_i) { printf("%c", tmp->name[name##_i*2+1]); } printf("\n");
+#define STRING8(name)       printf("  [string8]  %d -> ", tmp->name##_len); int name##_i; for (name##_i = 0; name##_i < tmp->name##_len; ++name##_i) { printf("%c", tmp->name[name##_i]); } printf("\n");
+#define BLOB(name, length)  printf("  [blob]     %d -> ", tmp->length); int name##_i; for (name##_i = 0; name##_i < tmp->length; ++name##_i) { printf("%02x", tmp->name[name##_i]); if (name##_i != tmp->length) { printf(":"); } } printf("\n");
 #define METADATA(name)      printf("  [metadata] %d\n",   tmp->name##_len);
 #define SLOT(name)          printf("  [slot]     %d\n",   tmp->name##_len);
 #define SLOTS(name, length) printf("  [slots]    %d\n",   tmp->name##_len);
