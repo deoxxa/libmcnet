@@ -8,6 +8,7 @@
         "src/metadata.c",
         "src/slot.c",
         "src/read.c",
+        "src/write.c",
       ],
       "include_dirs": [
         "./include",
