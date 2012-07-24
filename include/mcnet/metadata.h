@@ -11,7 +11,7 @@ extern "C" {
 typedef struct mcnet_metadata_s {
   int8_t count;
   int8_t length;
-  struct mcnet_metadata_entry_s* entries;
+  struct mcnet_metadata_entry_s* entries[];
 } mcnet_metadata_t;
 
 #define MCNET_METADATA_TYPE_BYTE 0
