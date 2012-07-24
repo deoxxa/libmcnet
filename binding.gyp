@@ -5,6 +5,7 @@
       "type": "static_library",
       "sources": [
         "src/parser.c",
+        "src/generator.c",
         "src/metadata.c",
         "src/slot.c",
         "src/read.c",

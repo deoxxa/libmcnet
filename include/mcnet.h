@@ -7,5 +7,6 @@
 #include "mcnet/slot.h"
 #include "mcnet/structs.h"
 #include "mcnet/parser.h"
+#include "mcnet/generator.h"
 
 #endif

@@ -3,7 +3,13 @@
 
 #include <mcnet.h>
 
-#define PACKET(id, code) case 0x##id: { mcnet_packet_##id##_t* tmp = (mcnet_packet_##id##_t*)packet; printf("Packet ID: 0x%02x\n", tmp->pid); code break; };
+#define PACKET(id, code) case 0x##id: { \
+  mcnet_packet_##id##_t* tmp = (mcnet_packet_##id##_t*)packet; \
+  printf("Packet ID: 0x%02x\n", tmp->pid); \
+  code \
+  printf("Packet size: %lu\n", mcnet_generator_size(packet)); \
+  break; \
+};
 
 #define CODE(data)
 #define BOOL(name)          printf("  [bool]     %c\n",   tmp->name ? 'T' : 'F');
