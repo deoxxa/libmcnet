@@ -18,5 +18,15 @@
         ],
       },
     },
+    {
+      "target_name": "example",
+      "type": "executable",
+      "dependencies": [
+        "libmcnet"
+      ],
+      "sources": [
+        "example.c",
+      ],
+    },
   ],
 }
