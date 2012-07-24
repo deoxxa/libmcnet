@@ -31,11 +31,11 @@ int32_t mcnet_read_int32(uint8_t* in) {
 }
 
 uint64_t mcnet_read_uint64(uint8_t* in) {
-  return (in[0] << 56) + (in[1] << 48) + (in[2] << 40) + (in[3] << 32) + (in[4] << 24) + (in[5] << 16) + (in[6] << 8) + in[7];
+  return (((uint64_t)(in[0])) << 56) + (((uint64_t)(in[1])) << 48) + (((uint64_t)(in[2])) << 40) + (((uint64_t)(in[3])) << 32) + (((uint64_t)(in[4])) << 24) + (((uint64_t)(in[5])) << 16) + (((uint64_t)(in[6])) << 8) + ((uint64_t)(in[7]));
 }
 
 int64_t mcnet_read_int64(uint8_t* in) {
-  return (in[0] << 56) + (in[1] << 48) + (in[2] << 40) + (in[3] << 32) + (in[4] << 24) + (in[5] << 16) + (in[6] << 8) + in[7];
+  return (((int64_t)(in[0])) << 56) + (((int64_t)(in[1])) << 48) + (((int64_t)(in[2])) << 40) + (((int64_t)(in[3])) << 32) + (((int64_t)(in[4])) << 24) + (((int64_t)(in[5])) << 16) + (((int64_t)(in[6])) << 8) + ((int64_t)(in[7]));
 }
 
 float mcnet_read_float(uint8_t* in) {
