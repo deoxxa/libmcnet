@@ -24,11 +24,21 @@
       "target_name": "example",
       "type": "executable",
       "dependencies": [
-        "libmcnet"
+        "libmcnet",
       ],
       "sources": [
         "example.c",
       ],
     },
+    {
+      "target_name": "test",
+      "type": "executable",
+      "dependencies": [
+        "libmcnet",
+      ],
+      "sources": [
+        "tests/test.c",
+      ],
+    }
   ],
 }
