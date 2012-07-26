@@ -52,7 +52,10 @@ extern "C" {
   packet.name = data + nparsed; \
   nparsed += name;
 
-#define PACKET_BODY(id, code) { \
+#define ONLY_SERVER(code) if ((parser != NULL) && (parser->type == MCNET_PARSER_TYPE_SERVER)) { code }
+#define ONLY_CLIENT(code) if ((parser != NULL) && (parser->type == MCNET_PARSER_TYPE_CLIENT)) { code }
+
+#define PACKET(id, code) case 0x##id: { \
   mcnet_packet_##id##_t packet; \
   memset(&packet, 0, sizeof(mcnet_packet_##id##_t)); \
   size_t nparsed = 0; \
@@ -62,51 +65,6 @@ extern "C" {
     settings->on_packet(parser, (mcnet_packet_t*)&packet); \
   } \
   return nparsed; \
-}
-
-#define PACKET(id, code) int mcnet_parser_parse_server_##id(mcnet_parser_t* parser, mcnet_parser_settings_t* settings, uint8_t* data, size_t data_len) PACKET_BODY(id, code)
-#define ONLY_SERVER(code) code
-#define ONLY_CLIENT(code)
-
-PACKETS
-
-#undef PACKET
-#undef ONLY_SERVER
-#undef ONLY_CLIENT
-
-#define PACKET(id, code) int mcnet_parser_parse_client_##id(mcnet_parser_t* parser, mcnet_parser_settings_t* settings, uint8_t* data, size_t data_len) PACKET_BODY(id, code)
-#define ONLY_SERVER(code)
-#define ONLY_CLIENT(code) code
-
-PACKETS
-
-#undef PACKET
-#undef ONLY_SERVER
-#undef ONLY_CLIENT
-
-#undef PARSER_CODE
-#undef GENERATOR_CODE
-#undef BOOL
-#undef BYTE
-#undef UBYTE
-#undef SHORT
-#undef USHORT
-#undef INT
-#undef LONG
-#undef FLOAT
-#undef DOUBLE
-#undef STRING8
-#undef STRING16
-#undef METADATA
-#undef SLOT
-#undef SLOTS
-
-#define PACKET(id, code) case 0x##id: { \
-  if (parser->type == MCNET_PARSER_TYPE_CLIENT) { \
-    return mcnet_parser_parse_client_##id(parser, settings, data, data_len); \
-  } else if (parser->type == MCNET_PARSER_TYPE_SERVER) { \
-    return mcnet_parser_parse_server_##id(parser, settings, data, data_len); \
-  } \
 }
 
 size_t mcnet_parser_execute(mcnet_parser_t* parser, mcnet_parser_settings_t* settings, uint8_t* data, size_t data_len) {
@@ -134,6 +92,26 @@ size_t mcnet_parser_execute(mcnet_parser_t* parser, mcnet_parser_settings_t* set
 }
 
 #undef PACKET
+
+#undef ONLY_SERVER
+#undef ONLY_CLIENT
+
+#undef PARSER_CODE
+#undef GENERATOR_CODE
+#undef BOOL
+#undef BYTE
+#undef UBYTE
+#undef SHORT
+#undef USHORT
+#undef INT
+#undef LONG
+#undef FLOAT
+#undef DOUBLE
+#undef STRING8
+#undef STRING16
+#undef METADATA
+#undef SLOT
+#undef SLOTS
 
 #ifdef __cplusplus
 }
