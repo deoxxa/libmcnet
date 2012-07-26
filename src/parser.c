@@ -45,7 +45,7 @@ extern "C" {
   int i = 0; \
   for (i = 0; i < packet.len; ++i) { \
     size_t tmp = mcnet_slot_parser_parse(NULL, data + nparsed + name, data_len - nparsed - name); \
-    if ((name == MCNET_EAGAIN) || (name == MCNET_EINVALID)) { return name; } \
+    if ((tmp == MCNET_EAGAIN) || (tmp == MCNET_EINVALID)) { return tmp; } \
     name += tmp; \
   } \
   packet.name##_len = name; \
