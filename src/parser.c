@@ -52,8 +52,8 @@ extern "C" {
   packet.name = data + nparsed; \
   nparsed += name;
 
-#define ONLY_SERVER(code) if ((parser != NULL) && (parser->type == MCNET_PARSER_TYPE_SERVER)) { code }
-#define ONLY_CLIENT(code) if ((parser != NULL) && (parser->type == MCNET_PARSER_TYPE_CLIENT)) { code }
+#define ONLY_SERVER(code) if ((parser != NULL) && (parser->type == MCNET_TYPE_SERVER)) { code }
+#define ONLY_CLIENT(code) if ((parser != NULL) && (parser->type == MCNET_TYPE_CLIENT)) { code }
 
 #define PACKET(id, code) case 0x##id: { \
   mcnet_packet_##id##_t packet; \

@@ -10,9 +10,6 @@ extern "C" {
 
 #include "packets.h"
 
-#define MCNET_GENERATOR_TYPE_CLIENT 1
-#define MCNET_GENERATOR_TYPE_SERVER 2
-
 typedef struct mcnet_generator_s {
   char type;
 } mcnet_generator_t;

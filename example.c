@@ -68,8 +68,8 @@ void on_error(mcnet_parser_t* parser, int err) {
 }
 
 int main() {
-  mcnet_generator_t generator = { .type = MCNET_GENERATOR_TYPE_SERVER };
-  mcnet_parser_t parser = { .data = &generator, .type = MCNET_PARSER_TYPE_SERVER };
+  mcnet_generator_t generator = { .type = MCNET_TYPE_SERVER };
+  mcnet_parser_t parser = { .data = &generator, .type = MCNET_TYPE_SERVER };
   mcnet_parser_settings_t settings = { .on_packet = on_packet, .on_error = on_error };
 
   uint8_t data[] = {
