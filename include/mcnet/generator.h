@@ -18,7 +18,7 @@ typedef struct mcnet_generator_s {
 } mcnet_generator_t;
 
 size_t mcnet_generator_size(mcnet_generator_t* generator, mcnet_packet_t* packet);
-void mcnet_generator_write(mcnet_generator_t* generator, mcnet_packet_t* packet, uint8_t* out);
+size_t mcnet_generator_write(mcnet_generator_t* generator, mcnet_packet_t* packet, uint8_t* out);
 
 #ifdef __cplusplus
 }

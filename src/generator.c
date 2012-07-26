@@ -7,6 +7,7 @@
 #include "../include/mcnet/metadata.h"
 #include "../include/mcnet/generator.h"
 #include "../include/mcnet/write.h"
+#include "../include/mcnet/error.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -46,6 +47,9 @@ size_t mcnet_generator_size(mcnet_generator_t* generator, mcnet_packet_t* packet
 
   switch (packet->pid) {
 PACKETS
+    default: {
+      return MCNET_EINVALID;
+    }
   }
 
   return res;
@@ -101,12 +105,17 @@ PACKETS
 #define SLOT(name) memset(out + offset, 0, 5); offset += 5;
 #define SLOTS(name, len) memset(out + offset, 0, 5 * _packet->name##_len); offset += 5 * _packet->name##_len;
 
-void mcnet_generator_write(mcnet_generator_t* generator, mcnet_packet_t* packet, uint8_t* out) {
+size_t mcnet_generator_write(mcnet_generator_t* generator, mcnet_packet_t* packet, uint8_t* out) {
   size_t offset = 0;
 
   switch (packet->pid) {
 PACKETS
+    default: {
+      return MCNET_EINVALID;
+    }
   }
+
+  return offset;
 }
 
 #undef ONLY_SERVER
