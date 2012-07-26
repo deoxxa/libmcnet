@@ -5,12 +5,12 @@
 
 #include <mcnet.h>
 
-int test_id = 0;
+int test_id = 0, test_mode = 0;
 
 /* generate the test callback functions */
 
-#define ONLY_SERVER(code)
-#define ONLY_CLIENT(code)
+#define ONLY_SERVER(code) if (test_mode == MCNET_TYPE_SERVER) { code }
+#define ONLY_CLIENT(code) if (test_mode == MCNET_TYPE_CLIENT) { code }
 #define PARSER_CODE(code)
 #define GENERATOR_CODE(code)
 
@@ -75,8 +75,11 @@ PACKETS
 int main(int argc, char** argv) {
 /* first we need to initialise various data structures */
 
-#define ONLY_SERVER(code) code
-#define ONLY_CLIENT(code) code
+  mcnet_parser_t parser = { .data = NULL, .type = test_mode };
+  mcnet_generator_t generator = { .type = test_mode };
+
+#define ONLY_SERVER(code) if (test_mode == MCNET_TYPE_SERVER) { code }
+#define ONLY_CLIENT(code) if (test_mode == MCNET_TYPE_CLIENT) { code }
 #define PARSER_CODE(code)
 #define GENERATOR_CODE(code)
 
@@ -127,8 +130,8 @@ PACKETS
 
 /* now we set some sample values */
 
-#define ONLY_SERVER(code) code
-#define ONLY_CLIENT(code) code
+#define ONLY_SERVER(code) if (test_mode == MCNET_TYPE_SERVER) { code }
+#define ONLY_CLIENT(code) if (test_mode == MCNET_TYPE_CLIENT) { code }
 #define PARSER_CODE(code)
 #define GENERATOR_CODE(code)
 
@@ -184,8 +187,8 @@ PACKETS
 
 /* generate packets */
 
-#define ONLY_SERVER(code) code
-#define ONLY_CLIENT(code) code
+#define ONLY_SERVER(code) if (test_mode == MCNET_TYPE_SERVER) { code }
+#define ONLY_CLIENT(code) if (test_mode == MCNET_TYPE_CLIENT) { code }
 #define PARSER_CODE(code)
 #define GENERATOR_CODE(code)
 
@@ -208,7 +211,7 @@ PACKETS
 /* THIS JUST IN: PROGRAMMER ABUSES BLOCKS IN A MINECRAFT LIBRARY; IRONY LOST ON MOST USERS. */
 
 #define PACKET(id, code) \
-  size_t packet_##id##_len = mcnet_generator_size(NULL, (mcnet_packet_t*)&packet_##id); \
+  size_t packet_##id##_len = mcnet_generator_size(&generator, (mcnet_packet_t*)&packet_##id); \
   if (packet_##id##_len == MCNET_EAGAIN) { \
     printf("not ok %04d - couldn't get packet length for " #id " (not enough data)\n", test_id++); \
   } else if (packet_##id##_len == MCNET_EINVALID) { \
@@ -218,7 +221,7 @@ PACKETS
   } \
   uint8_t* packet_##id##_buffer = malloc(packet_##id##_len); \
   memset(packet_##id##_buffer, 0, packet_##id##_len); \
-  size_t generator_res_##id = mcnet_generator_write(NULL, (mcnet_packet_t*)&packet_##id, packet_##id##_buffer); \
+  size_t generator_res_##id = mcnet_generator_write(&generator, (mcnet_packet_t*)&packet_##id, packet_##id##_buffer); \
   if (generator_res_##id == MCNET_EAGAIN) { \
     printf("not ok %04d - couldn't generate packet " #id " (not enough data)\n", test_id++); \
   } else if (generator_res_##id == MCNET_EINVALID) { \
@@ -256,8 +259,8 @@ PACKETS
 
 /* parse the generated packets */
 
-#define ONLY_SERVER(code) code
-#define ONLY_CLIENT(code) code
+#define ONLY_SERVER(code) if (test_mode == MCNET_TYPE_SERVER) { code }
+#define ONLY_CLIENT(code) if (test_mode == MCNET_TYPE_CLIENT) { code }
 #define PARSER_CODE(code)
 #define GENERATOR_CODE(code)
 
@@ -279,7 +282,7 @@ PACKETS
 
 #define PACKET(id, code) \
   mcnet_parser_settings_t parser_settings_##id = { .on_packet = packet_callback_##id, .on_error = error_callback_##id }; \
-  size_t parser_res_##id = mcnet_parser_execute(NULL, &parser_settings_##id, packet_##id##_buffer, packet_##id##_len); \
+  size_t parser_res_##id = mcnet_parser_execute(&parser, &parser_settings_##id, packet_##id##_buffer, packet_##id##_len); \
   if (parser_res_##id == MCNET_EAGAIN) { \
     printf("not ok %04d - couldn't parse packet " #id " (not enough data)\n", test_id++); \
   } \
