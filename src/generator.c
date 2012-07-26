@@ -19,8 +19,8 @@ extern "C" {
   break; \
 };
 
-#define ONLY_SERVER(code) if (generator->type == MCNET_GENERATOR_TYPE_SERVER) { code }
-#define ONLY_CLIENT(code) if (generator->type == MCNET_GENERATOR_TYPE_CLIENT) { code }
+#define ONLY_SERVER(code) if ((generator != NULL) && (generator->type == MCNET_GENERATOR_TYPE_SERVER)) { code }
+#define ONLY_CLIENT(code) if ((generator != NULL) && (generator->type == MCNET_GENERATOR_TYPE_CLIENT)) { code }
 #define PARSER_CODE(code)
 #define GENERATOR_CODE(code) code
 #define BOOL(name) res += 1;
@@ -81,8 +81,8 @@ PACKETS
   break; \
 };
 
-#define ONLY_SERVER(code) if (generator->type == MCNET_GENERATOR_TYPE_SERVER) { code }
-#define ONLY_CLIENT(code) if (generator->type == MCNET_GENERATOR_TYPE_CLIENT) { code }
+#define ONLY_SERVER(code) if ((generator != NULL) && (generator->type == MCNET_GENERATOR_TYPE_SERVER)) { code }
+#define ONLY_CLIENT(code) if ((generator != NULL) && (generator->type == MCNET_GENERATOR_TYPE_CLIENT)) { code }
 #define PARSER_CODE(code)
 #define GENERATOR_CODE(code) code
 #define BOOL(name) mcnet_write_bool(out + offset, _packet->name); offset += 1;
