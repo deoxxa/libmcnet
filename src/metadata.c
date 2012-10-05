@@ -178,6 +178,10 @@ size_t mcnet_metadata_generator_size(mcnet_metadata_t* metadata) {
   for (i = 0; i < metadata->count; ++i) {
     res += 1;
 
+    if (metadata->entries[i] == NULL) {
+      return MCNET_EINVALID;
+    }
+
     switch (metadata->entries[i]->type) {
       case MCNET_METADATA_TYPE_BYTE: {
         res += 1;
@@ -217,13 +221,17 @@ size_t mcnet_metadata_generator_size(mcnet_metadata_t* metadata) {
   return res;
 }
 
-void mcnet_metadata_generator_write(mcnet_metadata_t* metadata, uint8_t* out) {
+size_t mcnet_metadata_generator_write(mcnet_metadata_t* metadata, uint8_t* out) {
   size_t offset = 0;
 
   int i;
   for (i = 0; i < metadata->count; ++i) {
     out[offset] = ((metadata->entries[i]->type & 0x08) << 5) + (metadata->entries[i]->index & 0xe0);
     offset += 1;
+
+    if (metadata->entries[i] == NULL) {
+      return MCNET_EINVALID;
+    }
 
     switch (metadata->entries[i]->type) {
       case MCNET_METADATA_TYPE_BYTE: {
@@ -282,6 +290,8 @@ void mcnet_metadata_generator_write(mcnet_metadata_t* metadata, uint8_t* out) {
   }
 
   out[offset] = 0x7f;
+
+  return offset;
 }
 
 #ifdef __cplusplus
