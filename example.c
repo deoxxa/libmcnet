@@ -3,9 +3,18 @@
 
 #include <mcnet.h>
 
-#define PACKET(id, code) case 0x##id: { mcnet_packet_##id##_t* tmp = (mcnet_packet_##id##_t*)packet; printf("Packet ID: 0x%02x\n", tmp->pid); code break; };
+#define PACKET(id, code) case 0x##id: { \
+  mcnet_packet_##id##_t* tmp = (mcnet_packet_##id##_t*)packet; \
+  printf("Packet ID: 0x%02x\n", tmp->pid); \
+  code \
+  printf("Packet size: %lu\n", mcnet_generator_size(parser->data, packet)); \
+  break; \
+};
 
-#define CODE(data)
+#define ONLY_SERVER(code) if (1) { code }
+#define ONLY_CLIENT(code) if (1) { code }
+#define PARSER_CODE(code)
+#define GENERATOR_CODE(code)
 #define BOOL(name)          printf("  [bool]     %c\n",   tmp->name ? 'T' : 'F');
 #define BYTE(name)          printf("  [byte]     %d\n",   tmp->name);
 #define UBYTE(name)         printf("  [ubyte]    %u\n",   tmp->name);
@@ -15,9 +24,9 @@
 #define LONG(name)          printf("  [long]     %lld\n", tmp->name);
 #define FLOAT(name)         printf("  [float]    %f\n",   tmp->name);
 #define DOUBLE(name)        printf("  [double]   %g\n",   tmp->name);
-#define STRING16(name)      printf("  [string16] %d -> ", tmp->name##_len); for (int i = 0; i < tmp->name##_len; ++i) { printf("%c", tmp->name[i*2+1]); } printf("\n");
-#define STRING8(name)       printf("  [string8]  %d -> ", tmp->name##_len); for (int i = 0; i < tmp->name##_len; ++i) { printf("%c", tmp->name[i]); } printf("\n");
-#define BLOB(name, length)  printf("  [blob]     %d -> ", tmp->length); for (int i = 0; i < tmp->length; ++i) { printf("%02x", tmp->name[i]); if (i != tmp->length) { printf(":"); } } printf("\n");
+#define STRING16(name)      printf("  [string16] %d -> ", tmp->name##_len); int name##_i; for (name##_i = 0; name##_i < tmp->name##_len; ++name##_i) { printf("%c", tmp->name[name##_i*2+1]); } printf("\n");
+#define STRING8(name)       printf("  [string8]  %d -> ", tmp->name##_len); int name##_i; for (name##_i = 0; name##_i < tmp->name##_len; ++name##_i) { printf("%c", tmp->name[name##_i]); } printf("\n");
+#define BLOB(name, length)  printf("  [blob]     %d -> ", tmp->length); int name##_i; for (name##_i = 0; name##_i < tmp->length; ++name##_i) { printf("%02x", tmp->name[name##_i]); if (name##_i != tmp->length) { printf(":"); } } printf("\n");
 #define METADATA(name)      printf("  [metadata] %d\n",   tmp->name##_len);
 #define SLOT(name)          printf("  [slot]     %d\n",   tmp->name##_len);
 #define SLOTS(name, length) printf("  [slots]    %d\n",   tmp->name##_len);
@@ -34,7 +43,10 @@ void on_packet(mcnet_parser_t* parser, mcnet_packet_t* packet) {
   }
 }
 
-#undef CODE
+#undef ONLY_SERVER
+#undef ONLY_CLIENT
+#undef PARSER_CODE
+#undef GENERATOR_CODE
 #undef BOOL
 #undef BYTE
 #undef UBYTE
@@ -56,7 +68,8 @@ void on_error(mcnet_parser_t* parser, int err) {
 }
 
 int main() {
-  mcnet_parser_t parser = { .data = NULL, .type = MCNET_PARSER_TYPE_SERVER };
+  mcnet_generator_t generator = { .type = MCNET_TYPE_SERVER };
+  mcnet_parser_t parser = { .data = &generator, .type = MCNET_TYPE_SERVER };
   mcnet_parser_settings_t settings = { .on_packet = on_packet, .on_error = on_error };
 
   uint8_t data[] = {
