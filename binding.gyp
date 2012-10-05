@@ -31,13 +31,13 @@
       ],
     },
     {
-      "target_name": "test",
+      "target_name": "test-packets",
       "type": "executable",
       "dependencies": [
         "libmcnet",
       ],
       "sources": [
-        "tests/test.c",
+        "tests/packets.c",
       ],
     }
   ],
