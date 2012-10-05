@@ -39,6 +39,26 @@
       "sources": [
         "tests/packets.c",
       ],
-    }
+    },
+    {
+      "target_name": "test-metadata",
+      "type": "executable",
+      "dependencies": [
+        "libmcnet",
+      ],
+      "sources": [
+        "tests/metadata.c",
+      ],
+    },
+    {
+      "target_name": "test-slot",
+      "type": "executable",
+      "dependencies": [
+        "libmcnet",
+      ],
+      "sources": [
+        "tests/slot.c",
+      ],
+    },
   ],
 }
