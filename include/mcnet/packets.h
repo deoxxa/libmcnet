@@ -26,7 +26,7 @@ PACKET(10, SHORT(slot_id)) \
 PACKET(11, INT(eid) BYTE(unused) INT(x) SHORT(y) INT(z)) \
 PACKET(12, INT(eid) BYTE(animation)) \
 PACKET(13, INT(eid) BYTE(action)) \
-PACKET(14, INT(eid) STRING16(name) INT(x) INT(y) INT(z) BYTE(yaw) BYTE(pitch) SHORT(current_item)) \
+PACKET(14, INT(eid) STRING16(name) INT(x) INT(y) INT(z) BYTE(yaw) BYTE(pitch) SHORT(current_item) METADATA(metadata)) \
 PACKET(15, INT(eid) SHORT(item_id) BYTE(count) SHORT(damage) INT(x) INT(y) INT(z) BYTE(rotation) BYTE(pitch) BYTE(roll)) \
 PACKET(16, INT(eid) INT(collected_by)) \
 PACKET(17, INT(eid) BYTE(type) INT(x) INT(y) INT(z) INT(thrower) PARSER_CODE(if (packet.thrower == 0) { packet.speed_x = 0; packet.speed_y = 0; packet.speed_z = 0; goto done; }) GENERATOR_CODE(if (_packet->thrower == 0) { goto done; }) SHORT(speed_x) SHORT(speed_y) SHORT(speed_z) PARSER_CODE(done:) GENERATOR_CODE(done:)) \
@@ -49,7 +49,7 @@ PACKET(2A, INT(eid) BYTE(effect)) \
 PACKET(2B, FLOAT(experience_bar) SHORT(level) SHORT(experience)) \
 PACKET(33, INT(x) INT(z) BOOL(solid) USHORT(primary_bitmap) USHORT(add_bitmap) INT(data_len) BLOB(data, data_len)) \
 PACKET(34, INT(x) INT(z) SHORT(count) INT(data_len) BLOB(data, data_len)) \
-PACKET(35, INT(x) BYTE(y) INT(z) BYTE(type) BYTE(meta)) \
+PACKET(35, INT(x) BYTE(y) INT(z) SHORT(type) BYTE(meta)) \
 PACKET(36, INT(x) SHORT(y) INT(z) BYTE(one) BYTE(two) BYTE(block_id)) \
 PACKET(37, INT(eid) INT(x) SHORT(y) INT(z) BYTE(unknown)) \
 PACKET(38, SHORT(column_count) INT(data_len) BLOB(data, data_len) BLOB(meta, column_count * 12)) \
@@ -69,7 +69,7 @@ PACKET(6B, SHORT(slot) SLOT(slot_data)) \
 PACKET(6C, BYTE(window) BYTE(echantment)) \
 PACKET(82, INT(x) SHORT(y) INT(z) STRING16(line1) STRING16(line2) STRING16(line3) STRING16(line4)) \
 PACKET(83, SHORT(type) SHORT(id) UBYTE(data_len) BLOB(data, data_len)) \
-PACKET(84, INT(x) SHORT(y) INT(z) BYTE(action) INT(custom1) INT(custom2) INT(custom3)) \
+PACKET(84, INT(x) SHORT(y) INT(z) BYTE(action) INT(data_len) BLOB(data, data_len)) \
 PACKET(C8, INT(statistic) BYTE(amount)) \
 PACKET(C9, STRING16(name) BOOL(online) SHORT(ping)) \
 PACKET(CA, BYTE(flags) BYTE(flying_speed) BYTE(walking_speed)) \
