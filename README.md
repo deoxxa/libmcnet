@@ -106,6 +106,7 @@ License
 Contact
 -------
 
-* GitHub (http://github.com/deoxxa)
-* Twitter (http://twitter.com/deoxxa)
-* Email (deoxxa@fknsrs.biz)
+* GitHub ([deoxxa](http://github.com/deoxxa))
+* Twitter ([@deoxxa](http://twitter.com/deoxxa))
+* ADN ([@deoxxa](http://alpha.app.net/deoxxa))
+* Email ([deoxxa@fknsrs.biz](mailto:deoxxa@fknsrs.biz))
