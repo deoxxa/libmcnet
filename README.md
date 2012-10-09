@@ -50,7 +50,7 @@ $ make
 Example
 -------
 
-Also see [example.c](example.c) for something more comprehensive.
+Also see [example.c](https://github.com/deoxxa/libmcnet/blob/master/example.c) for something more comprehensive.
 
 ```c
 #include <stdio.h>
