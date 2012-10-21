@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/deoxxa/libmcnet.png)](http://travis-ci.org/deoxxa/libmcnet)
+
 libmcnet
 ========
 
