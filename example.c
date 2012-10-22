@@ -7,7 +7,7 @@
   mcnet_packet_##id##_t* tmp = (mcnet_packet_##id##_t*)packet; \
   printf("Packet ID: 0x%02x\n", tmp->pid); \
   code \
-  printf("Packet size: %lu\n", mcnet_generator_size(parser->data, packet)); \
+  printf("Packet size: %llu\n", (unsigned long long int)mcnet_generator_size(parser->data, packet)); \
   break; \
 };
 
@@ -111,7 +111,7 @@ int main() {
     0x00, 0x00, 0x00, 0x03
   };
 
-  printf("going to try to parse %lu bytes...\n\n", sizeof(data));
+  printf("going to try to parse %llu bytes...\n\n", (unsigned long long int)sizeof(data));
 
   size_t nparsed = 0, offset = 0;
 
@@ -128,10 +128,10 @@ int main() {
 
     offset += nparsed;
 
-    printf("parsed %lu bytes and %lu total\n", nparsed, offset);
+    printf("parsed %llu bytes and %llu total\n", (unsigned long long int)nparsed, (unsigned long long int)offset);
   }
 
-  printf("\nparsed %lu bytes total\n", offset);
+  printf("\nparsed %llu bytes total\n", (unsigned long long int)offset);
 
   return 0;
 }
