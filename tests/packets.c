@@ -217,7 +217,7 @@ PACKETS
   } else if (packet_##id##_len == MCNET_EINVALID) { \
     test_failures++; printf("not ok %04d - couldn't get packet length for " #id " (invalid data encountered)\n", test_id++); \
   } else { \
-    printf("ok %04d - getting size for packet " #id " was successful (%lu bytes)\n", test_id++, packet_##id##_len); \
+    printf("ok %04d - getting size for packet " #id " was successful (%llu bytes)\n", test_id++, (unsigned long long int)packet_##id##_len); \
   } \
   uint8_t* packet_##id##_buffer = malloc(packet_##id##_len); \
   memset(packet_##id##_buffer, 0, packet_##id##_len); \
@@ -229,7 +229,7 @@ PACKETS
   } else if (packet_##id##_len != generator_res_##id) { \
     test_failures++; printf("not ok %04d - generating packet " #id " dubious (expected and actual sizes didn't match)\n", test_id++); \
   } else { \
-    printf("ok %04d - packet " #id " generation was successful (%lu bytes)\n", test_id++, generator_res_##id); \
+    printf("ok %04d - packet " #id " generation was successful (%llu bytes)\n", test_id++, (unsigned long long int)generator_res_##id); \
   }
 
 PACKETS
