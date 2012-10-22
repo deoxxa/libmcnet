@@ -5,7 +5,7 @@
 
 #include <mcnet.h>
 
-int test_id = 0, test_mode = 0;
+int test_id = 0, test_mode = 0, test_failures = 0;
 
 /* generate the test callback functions */
 
@@ -14,16 +14,16 @@ int test_id = 0, test_mode = 0;
 #define PARSER_CODE(code)
 #define GENERATOR_CODE(code)
 
-#define BOOL(name) if (packet->name == 1) { printf("ok %04d - %02X/" #name " (bool) was correct\n", test_id++, packet->pid); } else { printf("not ok %04d - %02X/" #name " (bool) was incorrect\n", test_id++, packet->pid); }
-#define BYTE(name) if (packet->name == 2) { printf("ok %04d - %02X/" #name " (byte) was correct\n", test_id++, packet->pid); } else { printf("not ok %04d - %02X/" #name " (byte) was incorrect\n", test_id++, packet->pid); }
-#define UBYTE(name) if (packet->name == 3) { printf("ok %04d - %02X/" #name " (unsigned byte) was correct\n", test_id++, packet->pid); } else { printf("not ok %04d - %02X/" #name " (unsigned byte) was incorrect\n", test_id++, packet->pid); }
-#define SHORT(name) if (packet->name == 4) { printf("ok %04d - %02X/" #name " (short) was correct\n", test_id++, packet->pid); } else { printf("not ok %04d - %02X/" #name " (short) was incorrect\n", test_id++, packet->pid); }
-#define USHORT(name) if (packet->name == 5) { printf("ok %04d - %02X/" #name " (unsigned short) was correct\n", test_id++, packet->pid); } else { printf("not ok %04d - %02X/" #name " (unsigned short) was incorrect\n", test_id++, packet->pid); }
-#define INT(name) if (packet->name == 6) { printf("ok %04d - %02X/" #name " (int) was correct\n", test_id++, packet->pid); } else { printf("not ok %04d - %02X/" #name " (int) was incorrect\n", test_id++, packet->pid); }
-#define LONG(name) if (packet->name == 7) { printf("ok %04d - %02X/" #name " (long) was correct\n", test_id++, packet->pid); } else { printf("not ok %04d - %02X/" #name " (long) was incorrect\n", test_id++, packet->pid); }
-#define FLOAT(name) if (packet->name == 8) { printf("ok %04d - %02X/" #name " (float) was correct\n", test_id++, packet->pid); } else { printf("not ok %04d - %02X/" #name " (float) was incorrect\n", test_id++, packet->pid); }
-#define DOUBLE(name) if (packet->name == 9) { printf("ok %04d - %02X/" #name " (double) was correct\n", test_id++, packet->pid); } else { printf("not ok %04d - %02X/" #name " (double) was incorrect\n", test_id++, packet->pid); }
-#define BLOB(name, length) { char good = 1; int i = 0; for (i=0;i<packet->length;++i) { if (packet->name[i] != 10) { good = 0; break; } } if (good == 1) { printf("ok %04d - %02X/" #name " (blob) was correct\n", test_id++, packet->pid); } else { printf("not ok %04d - %02X/" #name " (blob) was incorrect\n", test_id++, packet->pid); } }
+#define BOOL(name) if (packet->name == 1) { printf("ok %04d - %02X/" #name " (bool) was correct\n", test_id++, packet->pid); } else { test_failures++; printf("not ok %04d - %02X/" #name " (bool) was incorrect\n", test_id++, packet->pid); }
+#define BYTE(name) if (packet->name == 2) { printf("ok %04d - %02X/" #name " (byte) was correct\n", test_id++, packet->pid); } else { test_failures++; printf("not ok %04d - %02X/" #name " (byte) was incorrect\n", test_id++, packet->pid); }
+#define UBYTE(name) if (packet->name == 3) { printf("ok %04d - %02X/" #name " (unsigned byte) was correct\n", test_id++, packet->pid); } else { test_failures++; printf("not ok %04d - %02X/" #name " (unsigned byte) was incorrect\n", test_id++, packet->pid); }
+#define SHORT(name) if (packet->name == 4) { printf("ok %04d - %02X/" #name " (short) was correct\n", test_id++, packet->pid); } else { test_failures++; printf("not ok %04d - %02X/" #name " (short) was incorrect\n", test_id++, packet->pid); }
+#define USHORT(name) if (packet->name == 5) { printf("ok %04d - %02X/" #name " (unsigned short) was correct\n", test_id++, packet->pid); } else { test_failures++; printf("not ok %04d - %02X/" #name " (unsigned short) was incorrect\n", test_id++, packet->pid); }
+#define INT(name) if (packet->name == 6) { printf("ok %04d - %02X/" #name " (int) was correct\n", test_id++, packet->pid); } else { test_failures++; printf("not ok %04d - %02X/" #name " (int) was incorrect\n", test_id++, packet->pid); }
+#define LONG(name) if (packet->name == 7) { printf("ok %04d - %02X/" #name " (long) was correct\n", test_id++, packet->pid); } else { test_failures++; printf("not ok %04d - %02X/" #name " (long) was incorrect\n", test_id++, packet->pid); }
+#define FLOAT(name) if (packet->name == 8) { printf("ok %04d - %02X/" #name " (float) was correct\n", test_id++, packet->pid); } else { test_failures++; printf("not ok %04d - %02X/" #name " (float) was incorrect\n", test_id++, packet->pid); }
+#define DOUBLE(name) if (packet->name == 9) { printf("ok %04d - %02X/" #name " (double) was correct\n", test_id++, packet->pid); } else { test_failures++; printf("not ok %04d - %02X/" #name " (double) was incorrect\n", test_id++, packet->pid); }
+#define BLOB(name, length) { char good = 1; int i = 0; for (i=0;i<packet->length;++i) { if (packet->name[i] != 10) { good = 0; break; } } if (good == 1) { printf("ok %04d - %02X/" #name " (blob) was correct\n", test_id++, packet->pid); } else { test_failures++; printf("not ok %04d - %02X/" #name " (blob) was incorrect\n", test_id++, packet->pid); } }
 #define STRING8(name) SHORT(name##_len) BLOB(name, name##_len)
 #define STRING16(name) SHORT(name##_len) BLOB(name, name##_len * 2)
 #define METADATA(name)
@@ -42,7 +42,7 @@ PACKETS
 #undef PACKET
 
 #define PACKET(id, code) void error_callback_##id(mcnet_parser_t* parser, int err) { \
-  printf("not ok %04d - parsing packet " #id " failed\n", test_id++); \
+  test_failures++; printf("not ok %04d - parsing packet " #id " failed\n", test_id++); \
 }
 
 PACKETS
@@ -213,9 +213,9 @@ PACKETS
 #define PACKET(id, code) \
   size_t packet_##id##_len = mcnet_generator_size(&generator, (mcnet_packet_t*)&packet_##id); \
   if (packet_##id##_len == MCNET_EAGAIN) { \
-    printf("not ok %04d - couldn't get packet length for " #id " (not enough data)\n", test_id++); \
+    test_failures++; printf("not ok %04d - couldn't get packet length for " #id " (not enough data)\n", test_id++); \
   } else if (packet_##id##_len == MCNET_EINVALID) { \
-    printf("not ok %04d - couldn't get packet length for " #id " (invalid data encountered)\n", test_id++); \
+    test_failures++; printf("not ok %04d - couldn't get packet length for " #id " (invalid data encountered)\n", test_id++); \
   } else { \
     printf("ok %04d - getting size for packet " #id " was successful (%lu bytes)\n", test_id++, packet_##id##_len); \
   } \
@@ -223,11 +223,11 @@ PACKETS
   memset(packet_##id##_buffer, 0, packet_##id##_len); \
   size_t generator_res_##id = mcnet_generator_write(&generator, (mcnet_packet_t*)&packet_##id, packet_##id##_buffer); \
   if (generator_res_##id == MCNET_EAGAIN) { \
-    printf("not ok %04d - couldn't generate packet " #id " (not enough data)\n", test_id++); \
+    test_failures++; printf("not ok %04d - couldn't generate packet " #id " (not enough data)\n", test_id++); \
   } else if (generator_res_##id == MCNET_EINVALID) { \
-    printf("not ok %04d - couldn't generate packet " #id " (invalid data encountered)\n", test_id++); \
+    test_failures++; printf("not ok %04d - couldn't generate packet " #id " (invalid data encountered)\n", test_id++); \
   } else if (packet_##id##_len != generator_res_##id) { \
-    printf("not ok %04d - generating packet " #id " dubious (expected and actual sizes didn't match)\n", test_id++); \
+    test_failures++; printf("not ok %04d - generating packet " #id " dubious (expected and actual sizes didn't match)\n", test_id++); \
   } else { \
     printf("ok %04d - packet " #id " generation was successful (%lu bytes)\n", test_id++, generator_res_##id); \
   }
@@ -284,10 +284,10 @@ PACKETS
   mcnet_parser_settings_t parser_settings_##id = { .on_packet = packet_callback_##id, .on_error = error_callback_##id }; \
   size_t parser_res_##id = mcnet_parser_execute(&parser, &parser_settings_##id, packet_##id##_buffer, packet_##id##_len); \
   if (parser_res_##id == MCNET_EAGAIN) { \
-    printf("not ok %04d - couldn't parse packet " #id " (not enough data)\n", test_id++); \
+    test_failures++; printf("not ok %04d - couldn't parse packet " #id " (not enough data)\n", test_id++); \
   } \
   if (parser_res_##id == MCNET_EINVALID) { \
-    printf("not ok %04d - couldn't parse packet " #id " (invalid data encountered)\n", test_id++); \
+    test_failures++; printf("not ok %04d - couldn't parse packet " #id " (invalid data encountered)\n", test_id++); \
   }
 
 PACKETS
@@ -315,5 +315,9 @@ PACKETS
 #undef PARSER_CODE
 #undef GENERATOR_CODE
 
-  return 0;
+  if (test_failures > 0) {
+    return 1;
+  } else {
+    return 0;
+  }
 }
