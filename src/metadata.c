@@ -131,14 +131,19 @@ size_t mcnet_metadata_parser_execute(mcnet_metadata_parser_t* parser, uint8_t* d
       entry.type = type;
       entry.index = index;
 
-      if (len < nparsed + 5) { return MCNET_EAGAIN; }
+      if (len < nparsed + 2) { return MCNET_EAGAIN; }
 
       entry.id = mcnet_read_int16(data + nparsed);
       nparsed += 2;
-      entry.count = mcnet_read_int8(data + nparsed);
-      nparsed += 1;
-      entry.damage = mcnet_read_int16(data + nparsed);
-      nparsed += 2;
+
+      if (entry.id >= 0) {
+        if (len < nparsed + 3) { return MCNET_EAGAIN; }
+
+        entry.count = mcnet_read_int8(data + nparsed);
+        nparsed += 1;
+        entry.damage = mcnet_read_int16(data + nparsed);
+        nparsed += 2;
+      }
 
       if (parser && parser->on_entry) { parser->on_entry(parser, (mcnet_metadata_entry_t*)&entry); }
 
@@ -206,7 +211,11 @@ size_t mcnet_metadata_generator_size(mcnet_metadata_t* metadata) {
         break;
       }
       case MCNET_METADATA_TYPE_SLOT: {
-        res += 5;
+        mcnet_metadata_entry_sbs_t* _entry = (mcnet_metadata_entry_sbs_t*)(metadata->entries[i]);
+        res += 2;
+        if (_entry->id >= 0) {
+          res += 3;
+        }
         break;
       }
       case MCNET_METADATA_TYPE_INTS: {
@@ -270,10 +279,12 @@ size_t mcnet_metadata_generator_write(mcnet_metadata_t* metadata, uint8_t* out) 
         mcnet_metadata_entry_sbs_t* _entry = (mcnet_metadata_entry_sbs_t*)(metadata->entries[i]);
         mcnet_write_uint16(out + offset, _entry->id);
         offset += 2;
-        mcnet_write_uint16(out + offset, _entry->count);
-        offset += 1;
-        mcnet_write_uint16(out + offset, _entry->damage);
-        offset += 2;
+        if (_entry->id >= 0) {
+          mcnet_write_uint16(out + offset, _entry->count);
+          offset += 1;
+          mcnet_write_uint16(out + offset, _entry->damage);
+          offset += 2;
+        }
         break;
       }
       case MCNET_METADATA_TYPE_INTS: {

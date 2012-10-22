@@ -7,10 +7,10 @@ extern "C" {
 
 #define PACKETS \
 PACKET(00, INT(id)) \
-PACKET(01, ONLY_SERVER(INT(eid)) ONLY_SERVER(STRING16(level_type)) ONLY_SERVER(BYTE(server_mode)) ONLY_SERVER(BYTE(dimension)) ONLY_SERVER(BYTE(difficulty)) ONLY_SERVER(UBYTE(world_height)) ONLY_SERVER(UBYTE(max_players))) \
+PACKET(01, INT(eid) STRING16(level_type) BYTE(server_mode) BYTE(dimension) BYTE(difficulty) UBYTE(world_height) UBYTE(max_players)) \
 PACKET(02, BYTE(protocol_version) STRING16(username) STRING16(host) INT(port)) \
 PACKET(03, STRING16(data)) \
-PACKET(04, LONG(time)) \
+PACKET(04, LONG(time) LONG(day_time)) \
 PACKET(05, INT(eid) SHORT(slot) SLOT(item)) \
 PACKET(06, INT(x) INT(y) INT(z)) \
 PACKET(07, INT(user) INT(target) BYTE(mouse)) \
@@ -54,13 +54,13 @@ PACKET(36, INT(x) SHORT(y) INT(z) BYTE(one) BYTE(two) BYTE(block_id)) \
 PACKET(37, INT(eid) INT(x) SHORT(y) INT(z) BYTE(unknown)) \
 PACKET(38, SHORT(column_count) INT(data_len) BLOB(data, data_len) BLOB(meta, column_count * 12)) \
 PACKET(3C, DOUBLE(x) DOUBLE(y) DOUBLE(z) FLOAT(radius) INT(count) BLOB(data, count * 3)) \
-PACKET(3D, INT(effect_id) INT(x) BYTE(y) INT(z) INT(data)) \
+PACKET(3D, INT(effect_id) INT(x) BYTE(y) INT(z) INT(data) BOOL(spawn_near_player)) \
 PACKET(3E, STRING16(name) INT(x) INT(y) INT(z) FLOAT(volume) BYTE(pitch)) \
 PACKET(46, BYTE(reason) BYTE(mode)) \
 PACKET(47, INT(eid) BOOL(unknown) INT(x) INT(y) INT(z)) \
 PACKET(64, BYTE(window) BYTE(type) STRING16(title) BYTE(slots)) \
 PACKET(65, BYTE(window)) \
-PACKET(66, BYTE(window) SHORT(slot) BYTE(right_click) SHORT(action) BOOL(shift) SLOT(slot_data)) \
+PACKET(66, BYTE(window) SHORT(slot) UBYTE(click_type) SHORT(action) UBYTE(click_modifier) SLOT(slot_data)) \
 PACKET(67, BYTE(window) SHORT(slot) SLOT(slot_data)) \
 PACKET(68, BYTE(window) SHORT(count) SLOTS(slot_data, count)) \
 PACKET(69, BYTE(window) SHORT(property) SHORT(value)) \
@@ -74,12 +74,12 @@ PACKET(C8, INT(statistic) BYTE(amount)) \
 PACKET(C9, STRING16(name) BOOL(online) SHORT(ping)) \
 PACKET(CA, BYTE(flags) BYTE(flying_speed) BYTE(walking_speed)) \
 PACKET(CB, STRING16(text)) \
-PACKET(CC, STRING16(locale) BYTE(view_distance) BYTE(chat_flags) BYTE(difficulty)) \
+PACKET(CC, STRING16(locale) BYTE(view_distance) BYTE(chat_flags) BYTE(difficulty) BOOL(show_cape)) \
 PACKET(CD, BYTE(payload)) \
 PACKET(FA, STRING16(channel) SHORT(data_length) BLOB(data, data_length)) \
 PACKET(FC, SHORT(shared_secret_len) BLOB(shared_secret, shared_secret_len) SHORT(verify_token_len) BLOB(verify_token, verify_token_len)) \
 PACKET(FD, STRING16(server_id) SHORT(public_key_len) BLOB(public_key, public_key_len) SHORT(verify_token_len) BLOB(verify_token, verify_token_len)) \
-PACKET(FE, ) \
+PACKET(FE, BYTE(magic)) \
 PACKET(FF, STRING16(reason))
 
 #ifdef __cplusplus
