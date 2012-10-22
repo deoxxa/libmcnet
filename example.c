@@ -111,6 +111,8 @@ int main() {
     0x00, 0x00, 0x00, 0x03
   };
 
+  printf("going to try to parse %lu bytes...\n\n", sizeof(data));
+
   size_t nparsed = 0, offset = 0;
 
   while ((nparsed = mcnet_parser_execute(&parser, &settings, data + offset, sizeof(data) - offset)) != 0) {
@@ -126,8 +128,10 @@ int main() {
 
     offset += nparsed;
 
-    printf("parsed %ld bytes and %ld total\n", nparsed, offset);
+    printf("parsed %lu bytes and %lu total\n", nparsed, offset);
   }
+
+  printf("\nparsed %lu bytes total\n", offset);
 
   return 0;
 }
