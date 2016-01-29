@@ -15,24 +15,30 @@ ADD_LIBRARY(mcnet
   src/write.c
 )
 
+ENABLE_TESTING()
+
+ADD_TEST(example example)
 ADD_EXECUTABLE(example
   example.c
 )
 ADD_DEPENDENCIES(example mcnet)
 TARGET_LINK_LIBRARIES(example mcnet)
 
+ADD_TEST(test-packets test-packets)
 ADD_EXECUTABLE(test-packets
   tests/packets.c
 )
 ADD_DEPENDENCIES(test-packets mcnet)
 TARGET_LINK_LIBRARIES(test-packets mcnet)
 
+ADD_TEST(test-metadata test-metadata)
 ADD_EXECUTABLE(test-metadata
   tests/metadata.c
 )
 ADD_DEPENDENCIES(test-metadata mcnet)
 TARGET_LINK_LIBRARIES(test-metadata mcnet)
 
+ADD_TEST(test-slot test-slot)
 ADD_EXECUTABLE(test-slot
   tests/slot.c
 )
